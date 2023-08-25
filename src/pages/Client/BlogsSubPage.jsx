@@ -143,6 +143,5 @@ function BlogsSubPage() {
     </Box>
   );
 }
-//Test
 
 export default BlogsSubPage;
