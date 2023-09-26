@@ -1,10 +1,8 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../Context/UserAuthContext";
-import { auth, db } from "../firebase-config";
-import { setUserData } from "../redux/UserDataSlice";
+import { auth } from "../firebase-config";
 import { getIdTokenResult, onAuthStateChanged } from "firebase/auth";
 import Cookies from "js-cookie";
 
@@ -14,25 +12,8 @@ const ProtectedRoute = ({ children }) => {
   const dispatch = useDispatch();
 
   const { user, LogOut } = useUserAuth();
-  // const [userDetails, setUserDetails] = useState("");
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     const filterdData = query(
-  //       usersCollectionRef,
-  //       where("user", "==", user.uid)
-  //     );
-  //     const querySnapshot = await getDocs(filterdData);
-  //     setUserDetails(
-  //       querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //     );
-  //   };
-  //   getUser();
-
-  //   localStorage.setItem("token", user.accessToken);
-  // }, [user]);
-  // dispatch(setUserData(JSON.stringify(userDetails[0])));
-
+  //Broken Authentication Flaws - Praveen
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       // User is signed in
@@ -60,18 +41,8 @@ const ProtectedRoute = ({ children }) => {
   });
 
   const token = Cookies.get("token");
-
-  // Check if the "token" cookie is available
-  if (token) {
-    // Use the token as needed in your application
-    console.log("Token:", token);
-  } else {
-    // The "token" cookie is not available
-    console.log("Token not found");
-  }
-
   if (!user && !token) {
-    return <Navigate to="/signin" replace />;
+    return <Navigate to="/" replace />;
   }
   return children;
 };
