@@ -42,14 +42,13 @@ const StyledListItemButton = styled(ListItemButton)({
 
 export default function MiniDrawer() {
   const { LogOut, user } = useUserAuth();
-  console.log(user);
   const logOutnavigate = useNavigate();
   const handleLogout = async () => {
     try {
       await LogOut();
       logOutnavigate("/signin");
     } catch (error) {
-      console.log(error.message);
+      navigate("/error");
     }
   };
   const navigate = useNavigate();

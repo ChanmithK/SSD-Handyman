@@ -43,6 +43,7 @@ import TrainerUpdatePackage from './pages/Trainer/MainPages/UpdatePackage'
 import TrainerClientDetails from './pages/Trainer/MainPages/ClientDetails'
 import TrainerReport from './pages/Trainer/MainPages/Report'
 import MealPlanReport from './pages/Client/Main-Pages/MealPlanReport'
+import ErrorPage from './components/Admin/ErrorPage'
 
 export function App() {
   const dispatch = useDispatch()
@@ -73,6 +74,14 @@ export function App() {
       <CssBaseline />
       <UserAuthContextProvider>
         <Routes>
+        <Route
+            path='/error'
+            element={
+              <ProtectedRoute>
+                <ErrorPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path='/trainers'
             element={

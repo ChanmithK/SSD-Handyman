@@ -4,7 +4,7 @@ import {
   Menu,
   PeopleAlt,
   ShoppingBag,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 import {
   AppBar,
@@ -20,27 +20,27 @@ import {
   Toolbar,
   Typography,
   Menu as Men,
-} from '@mui/material';
+} from "@mui/material";
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUserAuth } from '../../Context/UserAuthContext';
-import { db } from '../../../src/firebase-config';
-import { doc, getDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUserAuth } from "../../Context/UserAuthContext";
+import { db } from "../../../src/firebase-config";
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect } from "react";
 
 const AppBarTrainer = ({ trainerName }) => {
   const navigate = useNavigate();
   const { LogOut, user } = useUserAuth();
-  const trainerRef = doc(db, 'users', '5qO5w7dwRvzo3YeCoppe');
+  const trainerRef = doc(db, "users", "5qO5w7dwRvzo3YeCoppe");
   const [name, setName] = useState();
 
   const handleLogout = async () => {
     try {
       await LogOut();
-      navigate('/signin');
+      navigate("/signin");
     } catch (err) {
-      console.log(err.message);
+      navigate("/error");
     }
   };
 
@@ -58,8 +58,8 @@ const AppBarTrainer = ({ trainerName }) => {
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event &&
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -71,15 +71,15 @@ const AppBarTrainer = ({ trainerName }) => {
   const list = (anchor) => (
     <Box
       sx={{
-        width: anchor === 'top' ? 'auto' : 250,
+        width: anchor === "top" ? "auto" : 250,
       }}
-      role='presentation'
+      role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/trainer/clients')}>
+          <ListItemButton onClick={() => navigate("/trainer/clients")}>
             <ListItemIcon>
               <PeopleAlt />
             </ListItemIcon>
@@ -88,7 +88,7 @@ const AppBarTrainer = ({ trainerName }) => {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/trainer/orders')}>
+          <ListItemButton onClick={() => navigate("/trainer/orders")}>
             <ListItemIcon>
               <ShoppingBag />
             </ListItemIcon>
@@ -97,7 +97,7 @@ const AppBarTrainer = ({ trainerName }) => {
         </ListItem>
 
         <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/trainer/packages')}>
+          <ListItemButton onClick={() => navigate("/trainer/packages")}>
             <ListItemIcon>
               <FactCheck />
             </ListItemIcon>
@@ -113,30 +113,30 @@ const AppBarTrainer = ({ trainerName }) => {
 
   return (
     <Box>
-      <AppBar position='sticky' sx={{ backgroundColor: '#2A3036' }}>
+      <AppBar position="sticky" sx={{ backgroundColor: "#2A3036" }}>
         <Toolbar>
           <IconButton
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='menu'
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={toggleDrawer('left', true)}
+            onClick={toggleDrawer("left", true)}
           >
             <Menu />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {trainerName}
           </Typography>
 
           <div>
             <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
               onClick={() => setMenuStatus(true)}
-              color='inherit'
+              color="inherit"
             >
               <AccountCircle />
             </IconButton>
@@ -144,7 +144,7 @@ const AppBarTrainer = ({ trainerName }) => {
         </Toolbar>
       </AppBar>
 
-      {['left'].map((anchor) => (
+      {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
           <SwipeableDrawer
             anchor={anchor}
@@ -158,20 +158,20 @@ const AppBarTrainer = ({ trainerName }) => {
       ))}
 
       <Men
-        id='demo-positioned-menu'
-        aria-labelledby='demo-positioned-button'
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
         open={MenuStatus}
         onClose={() => setMenuStatus(false)}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
       >
-        <MenuItem onClick={() => navigate('/trainer/profile')}>
+        <MenuItem onClick={() => navigate("/trainer/profile")}>
           Profile
         </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
