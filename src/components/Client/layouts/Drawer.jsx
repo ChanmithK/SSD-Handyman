@@ -46,7 +46,6 @@ export default function MiniDrawer() {
   const handleLogout = async () => {
     try {
       await LogOut();
-      logOutnavigate("/signin");
     } catch (error) {
       navigate("/error");
     }
@@ -210,8 +209,8 @@ export default function MiniDrawer() {
           {drawer}
           <StyledList sx={{ position: "fixed", bottom: 0 }}>
             <ListItem disablePadding>
-              <StyledListItemButton onClick={handleLogout}>   
-               <LogoutIcon
+              <StyledListItemButton onClick={handleLogout}>
+                <LogoutIcon
                   sx={{
                     color: "#2A3036",
                   }}
