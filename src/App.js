@@ -44,6 +44,7 @@ import TrainerClientDetails from "./pages/Trainer/MainPages/ClientDetails";
 import TrainerReport from "./pages/Trainer/MainPages/Report";
 import MealPlanReport from "./pages/Client/Main-Pages/MealPlanReport";
 import ErrorPage from "./components/Admin/ErrorPage";
+import CreateGig from "./pages/Frontend/Handyman/CreateGig";
 
 export function App() {
   const dispatch = useDispatch();
@@ -323,6 +324,28 @@ export function App() {
           <Route path="/admin/blog/update" element={<BlogUpdate />} />
           <Route path="/admin/users" element={<AdminUserList />} />
           <Route path="/admin/report" element={<Report />} />
+
+          {/* **********************Handyman Application***************** */}
+
+          {/* Handyman */}
+          <Route
+            path="/create-gig"
+            element={
+              <ProtectedRoute>
+                <CreateGig />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Customer */}
+          <Route
+            path="/make-order"
+            element={
+              <ProtectedRoute>
+                <MakeOrder />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </UserAuthContextProvider>
     </div>
