@@ -180,10 +180,39 @@ function SignUp() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <AccountCircleIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+          </Avatar> */}
+          <Typography
+            sx={{
+              fontWeight: 800,
+              fontSize: "23px",
+              color: "#062b56",
+              display: "flex",
+            }}
+          >
+            HANDY
+            <Typography
+              sx={{
+                fontWeight: 800,
+                fontSize: "23px",
+                color: "#f96a20",
+                ml: 0.5,
+              }}
+            >
+              MAN
+            </Typography>
+          </Typography>
+          <Typography
+            component="h1"
+            sx={{
+              mt: 2,
+              fontFamily: "Inter",
+              color: "#062b56",
+              fontSize: 30,
+              fontWeight: 600,
+            }}
+          >
             Sign Up
           </Typography>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -332,13 +361,25 @@ function SignUp() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundColor: "#062b56",
+                  fontFamily: "Inter",
+                  color: "#fff",
+                }}
               >
                 Sign Up
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/signIn" variant="body2">
+                  <Link
+                    href="/signIn"
+                    sx={{
+                      color: "#062b56",
+                      fontFamily: "Inter",
+                    }}
+                  >
                     Already have an account? Sign in
                   </Link>
                 </Grid>

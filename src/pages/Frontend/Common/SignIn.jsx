@@ -97,10 +97,40 @@ const SignIn = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ mt: 1, bgcolor: "secondary.main" }}>
+          {/* <Avatar sx={{ mt: 1, bgcolor: "secondary.main" }}>
             <AccountCircleIcon />
-          </Avatar>
-          <Typography sx={{ mt: 2 }} component="h1" variant="h5">
+          </Avatar> */}
+          <Typography
+            sx={{
+              fontWeight: 800,
+              fontSize: "23px",
+              color: "#062b56",
+              display: "flex",
+            }}
+          >
+            HANDY
+            <Typography
+              sx={{
+                fontWeight: 800,
+                fontSize: "23px",
+                color: "#f96a20",
+                ml: 0.5,
+              }}
+            >
+              MAN
+            </Typography>
+          </Typography>
+          <Typography
+            sx={{
+              mt: 2,
+              fontFamily: "Inter",
+              color: "#062b56",
+              fontSize: 30,
+              fontWeight: 600,
+            }}
+            component="h1"
+            variant="h5"
+          >
             Sign In
           </Typography>
           <Box noValidate sx={{ mt: 4 }}>
@@ -133,7 +163,13 @@ const SignIn = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 5, mb: 4 }}
+                sx={{
+                  mt: 5,
+                  mb: 4,
+                  backgroundColor: "#062b56",
+                  fontFamily: "Inter",
+                  color: "#fff",
+                }}
               >
                 Sign In
               </Button>
@@ -141,12 +177,24 @@ const SignIn = () => {
             <GoogleButton onClick={handleGoogleSignIn} />
             <Grid container sx={{ mt: 5 }}>
               <Grid item xs>
-                <Link href="/reset-password" variant="body2">
+                <Link
+                  href="/reset-password"
+                  sx={{
+                    color: "#062b56",
+                    fontFamily: "Inter",
+                  }}
+                >
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link
+                  href="/signup"
+                  sx={{
+                    color: "#062b56",
+                    fontFamily: "Inter",
+                  }}
+                >
                   Don't have an account? Sign Up
                 </Link>
               </Grid>
