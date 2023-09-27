@@ -37,7 +37,7 @@ function ViewOrderSubPage() {
       setURL(url);
     })
     .catch((error) => {
-      console.log("error", error);
+      console.log("Image Not Uploaded");
     });
 
   //Delete the order if not proceeded
@@ -55,7 +55,6 @@ function ViewOrderSubPage() {
             const imageRef = ref(storage, `images/${data.image}`);
             // Delete the file
             deleteObject(imageRef).catch((error) => {
-              // Uh-oh, an error occurred!
             });
             navigate("/orders");
           },

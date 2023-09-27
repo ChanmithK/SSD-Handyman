@@ -75,7 +75,6 @@ const Example = React.forwardRef((props, ref) => {
     }
     fetchData();
   }, []);
-  // console.log(rows.workoutPlan);
   return (
     <div ref={ref}>
       <p style={heading}>Workout Schedule Report - FitFlame</p>

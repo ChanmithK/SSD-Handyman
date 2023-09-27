@@ -56,7 +56,9 @@ export default function TemporaryDrawer() {
               button
               key={text}
               onClick={() => {
-                text === "Blogs" ? navigate("/admin/blog") : navigate("/admin/users");
+                text === "Blogs"
+                  ? navigate("/admin/blog")
+                  : navigate("/admin/users");
               }}
             >
               <ListItemIcon>
