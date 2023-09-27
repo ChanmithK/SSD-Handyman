@@ -45,6 +45,8 @@ import TrainerReport from "./pages/Trainer/MainPages/Report";
 import MealPlanReport from "./pages/Client/Main-Pages/MealPlanReport";
 import ErrorPage from "./components/Admin/ErrorPage";
 import CreateGig from "./pages/Frontend/Handyman/CreateGig";
+import ViewGigs from "./pages/Frontend/Customer/SubPages/ViewGigs";
+import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
 
 // ********************** NILAKSHA IMPORTS ********************** //
 import SignUp from "./pages/Frontend/Common/SignUp";
@@ -347,10 +349,27 @@ export function App() {
 
           {/* Customer */}
           <Route
+            path="/client-home"
+            element={
+              <ProtectedRoute>
+                <MakeOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/make-order"
             element={
               <ProtectedRoute>
                 <MakeOrder />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view-gigs"
+            element={
+              <ProtectedRoute>
+                <ViewGigMainPage />
               </ProtectedRoute>
             }
           />
