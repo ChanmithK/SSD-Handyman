@@ -15,8 +15,8 @@ import ClientProfile from "./pages/Client/Main-Pages/ClientProfile";
 import ClientProfileUpdate from "./pages/Client/Main-Pages/ClientProfileUpdate";
 import BlogView from "./pages/Client/Main-Pages/BlogView";
 
-import SignIn from "./pages/User/Main-Pages/SignIn";
-import SignUp from "./pages/User/Main-Pages/SignUp";
+// import SignIn from "./pages/User/Main-Pages/SignIn";
+// import SignUp from "./pages/User/Main-Pages/SignUp";
 import PasswordReset from "./pages/User/Main-Pages/PasswordReset";
 import { UserAuthContextProvider } from "./Context/UserAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -43,9 +43,14 @@ import TrainerUpdatePackage from "./pages/Trainer/MainPages/UpdatePackage";
 import TrainerClientDetails from "./pages/Trainer/MainPages/ClientDetails";
 import TrainerReport from "./pages/Trainer/MainPages/Report";
 import MealPlanReport from "./pages/Client/Main-Pages/MealPlanReport";
+import ErrorPage from "./components/Admin/ErrorPage";
 import CreateGig from "./pages/Frontend/Handyman/CreateGig";
 import ViewGigs from "./pages/Frontend/Customer/SubPages/ViewGigs";
 import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
+
+// ********************** NILAKSHA IMPORTS ********************** //
+import SignUp from "./pages/Frontend/Common/SignUp";
+import SignIn from "./pages/Frontend/Common/SignIn";
 
 export function App() {
   const dispatch = useDispatch();
@@ -76,6 +81,14 @@ export function App() {
       <CssBaseline />
       <UserAuthContextProvider>
         <Routes>
+          <Route
+            path="/error"
+            element={
+              <ProtectedRoute>
+                <ErrorPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/trainers"
             element={
@@ -319,6 +332,10 @@ export function App() {
           <Route path="/admin/report" element={<Report />} />
 
           {/* **********************Handyman Application***************** */}
+
+          {/* Common*/}
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
 
           {/* Handyman */}
           <Route

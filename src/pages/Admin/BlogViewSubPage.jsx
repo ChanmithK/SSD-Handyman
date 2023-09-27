@@ -23,7 +23,7 @@ const BlogViewSubPage = () => {
         setimageURL(url);
       })
       .catch((error) => {
-        console.log("error", error);
+        console.log("Image URL Not Found");
       });
 
     setTimeout(() => {

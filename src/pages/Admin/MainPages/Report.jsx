@@ -87,7 +87,6 @@ const Example = React.forwardRef((props, ref) => {
         id: doc.id,
       }));
       setRows(usersList);
-      console.log(usersList);
     };
 
     getBlogs();
