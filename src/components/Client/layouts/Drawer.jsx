@@ -15,6 +15,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../../Context/UserAuthContext";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
 const drawerWidth = 64;
 
@@ -58,14 +59,14 @@ export default function MiniDrawer() {
     <Box>
       <StyledList>
         <ListItem disablePadding>
-          {location.pathname === "/blogs" ? (
+          {location.pathname === "/view-gigs" ? (
             <StyledListItemButton
-              sx={{ background: "#2A3036" }}
+              sx={{ background: "#062b56" }}
               onClick={() => {
-                navigate("/blogs");
+                navigate("/view-gigs");
               }}
             >
-              <FeedIcon
+              <LibraryBooksIcon
                 sx={{
                   color: "white",
                 }}
@@ -74,7 +75,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/blogs");
+                navigate("/view-gigs");
               }}
             >
               <FeedIcon
