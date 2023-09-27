@@ -44,13 +44,14 @@ import TrainerClientDetails from "./pages/Trainer/MainPages/ClientDetails";
 import TrainerReport from "./pages/Trainer/MainPages/Report";
 import MealPlanReport from "./pages/Client/Main-Pages/MealPlanReport";
 import ErrorPage from "./components/Admin/ErrorPage";
-import CreateGig from "./pages/Frontend/Handyman/CreateGig";
+// import CreateGig from "./pages/Frontend/Handyman/CreateGig";
 import ViewGigs from "./pages/Frontend/Customer/SubPages/ViewGigs";
 import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
 
 // ********************** NILAKSHA IMPORTS ********************** //
 import SignUp from "./pages/Frontend/Common/SignUp";
 import SignIn from "./pages/Frontend/Common/SignIn";
+import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
 
 export function App() {
   const dispatch = useDispatch();
@@ -342,7 +343,7 @@ export function App() {
             path="/create-gig"
             element={
               <ProtectedRoute>
-                <CreateGig />
+                <CreateGigMainPage />
               </ProtectedRoute>
             }
           />
