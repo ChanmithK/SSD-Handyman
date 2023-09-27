@@ -135,7 +135,7 @@ function ViewGigs() {
                 <CardMedia
                   sx={{ height: 205, borderRadius: 2 }}
                   image={gig.image}
-                  title="green iguana"
+                  title=""
                 />
                 <CardContent
                   sx={{
