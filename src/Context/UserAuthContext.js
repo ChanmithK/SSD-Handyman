@@ -48,7 +48,7 @@ export function UserAuthContextProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
-      const token = currentUser.accessToken;
+      const token = currentUser?.accessToken;
       const tokenOptions = {
         secure: true,
         httpOnly: true,
@@ -58,15 +58,15 @@ export function UserAuthContextProvider({ children }) {
       Cookies.set("token", token, tokenOptions);
 
       const currentUserData = {
-        username: currentUser.displayName,
-        userImage: currentUser.photoURL,
-        userId: currentUser.uid,
-        email: currentUser.email,
+        username: currentUser?.displayName,
+        userImage: currentUser?.photoURL,
+        userId: currentUser?.uid,
+        email: currentUser?.email,
       };
 
       dispatch(setUserData(currentUserData));
 
-      if (currentUser.displayName === null) {
+      if (currentUser?.displayName === null) {
         try {
           const filteredData = query(
             usersCollectionRef,

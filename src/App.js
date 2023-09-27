@@ -44,6 +44,8 @@ import TrainerClientDetails from "./pages/Trainer/MainPages/ClientDetails";
 import TrainerReport from "./pages/Trainer/MainPages/Report";
 import MealPlanReport from "./pages/Client/Main-Pages/MealPlanReport";
 import CreateGig from "./pages/Frontend/Handyman/CreateGig";
+import ViewGigs from "./pages/Frontend/Customer/SubPages/ViewGigs";
+import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
 
 export function App() {
   const dispatch = useDispatch();
@@ -330,10 +332,27 @@ export function App() {
 
           {/* Customer */}
           <Route
+            path="/client-home"
+            element={
+              <ProtectedRoute>
+                <MakeOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/make-order"
             element={
               <ProtectedRoute>
                 <MakeOrder />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view-gigs"
+            element={
+              <ProtectedRoute>
+                <ViewGigMainPage />
               </ProtectedRoute>
             }
           />
