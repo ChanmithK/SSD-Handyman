@@ -57,8 +57,8 @@ export function App() {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/blogs") {
-      dispatch(setTileName("Blogs"));
+    if (location.pathname === "/view-gigs") {
+      dispatch(setTileName("Gigs"));
     } else if (location.pathname === "/trainers") {
       dispatch(setTileName("Trainers"));
     } else if (location.pathname === "/orders") {

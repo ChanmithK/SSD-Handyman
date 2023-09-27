@@ -32,7 +32,7 @@ function SignInForm() {
   };
   useEffect(() => {
     if (user != null) {
-      navigate("/blogs");
+      navigate("/view-gigs");
     }
   }, [user]);
 
@@ -56,7 +56,7 @@ function SignInForm() {
     } else {
       try {
         await Login(email, password);
-        navigate("/blogs");
+        navigate("/view-gigs");
       } catch (error) {
         var errorCode = error.code;
         var errorMessage = error.message;
