@@ -9,10 +9,14 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
-import { db } from "../../../../firebase-config";
+import { db, storage } from "../../../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: "absolute",
@@ -42,45 +46,84 @@ const CreateGig = () => {
       .string()
       .matches(/\d+\.?\d*/, "Price must contain only numbers")
       .required("Price is required"),
-    completionTime: yup.string()
-    .matches(/\d+\.?\d*/, "Completion Time must contain only numbers")
-    .required("Completion Time is required"),
+    completionTime: yup
+      .string()
+      .matches(/\d+\.?\d*/, "Completion Time must contain only numbers")
+      .required("Completion Time is required"),
   });
+
+  const userNew = useSelector((state) => state.setUserData.userData);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
   const [image, setImage] = useState(null);
+  const [ImageURL, setImageURL] = useState("");
 
   const onSubmitHandler = (data) => {
+    if (image === null) {
+      ErrMsg("Please select an image for the gig!");
+
+      return;
+    }
+
     createGig(data);
-    handleClose();
+    setImageURL("");
+    setImage(null);
+  };
+
+  const ErrMsg = (errMsg) => {
+    toast.error(errMsg, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   const createGig = async (values) => {
     const { title, description, price, completionTime } = values;
-
+    console.log(userNew[0]?.profileImage);
     try {
+      const imageRef = ref(storage, `gig-images/${image.name + Date.now()}`);
+
+      await uploadBytes(imageRef, image)
+        .then(() => {
+          getDownloadURL(imageRef).then((url) => {
+            setImageURL(url);
+          });
+        })
+        .catch((err) => console.log(err));
+
       await addDoc(collection(db, "gigs"), {
         title,
         description,
         price,
-        taskTime: completionTime,
-        image,
-        // name: user.displayName,
-        // profileImage: user.photoURL,
-        level: "Level " + Math.floor(Math.random() * 5),
-        Rating: Math.floor(Math.random() * 5),
+        taskTime: completionTime + " Days",
+        image: ImageURL,
+        id: userNew ? userNew[0].id : "",
+        name: userNew ? userNew[0].name : "",
+        profileImage: userNew != undefined ? userNew[0]?.profileImage : "",
+        level: "Level " + Math.ceil(Math.random() * 5),
+        rating: Math.floor(Math.random() * 5),
         numReviews: Math.floor(Math.random() * 500),
       });
+      handleClose();
+      reset();
     } catch (error) {
       console.log(error);
     }
@@ -88,6 +131,7 @@ const CreateGig = () => {
 
   return (
     <Box>
+      <ToastContainer />
       <Button
         variant="contained"
         sx={{

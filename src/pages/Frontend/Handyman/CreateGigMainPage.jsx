@@ -1,7 +1,7 @@
 import React from "react";
-import MenuAppBar from "../../../components/Client/layouts/Appbar";
-import MiniDrawer from "../../../components/Client/layouts/Drawer";
-import classes from "../Customer/CustomGrid.module.css";
+import MenuAppBar from "../../../components/Handyman/layouts/Appbar";
+import MiniDrawer from "../../../components/Handyman/layouts/Drawer";
+import classes from "./CustomGrid.module.css";
 import CreateGig from "./SubPages/CreateGig";
 
 function CreateGigMainPage() {
