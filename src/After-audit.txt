@@ -1,0 +1,20 @@
+praveenkariyawasam@ITs-Mac-mini SSD-FitFlame % yarn audit  
+
+yarn audit v1.22.19
+┌───────────────┬──────────────────────────────────────────────────────────────┐
+│ moderate      │ Inefficient Regular Expression Complexity in nth-check       │
+├───────────────┼──────────────────────────────────────────────────────────────┤
+│ Package       │ nth-check                                                    │
+├───────────────┼──────────────────────────────────────────────────────────────┤
+│ Patched in    │ >=2.0.1                                                      │
+├───────────────┼──────────────────────────────────────────────────────────────┤
+│ Dependency of │ react-scripts                                                │
+├───────────────┼──────────────────────────────────────────────────────────────┤
+│ Path          │ react-scripts > @svgr/webpack > @svgr/plugin-svgo > svgo >   │
+│               │ css-select > nth-check                                       │
+├───────────────┼──────────────────────────────────────────────────────────────┤
+│ More info     │ https://www.npmjs.com/advisories/1093882                     │
+└───────────────┴──────────────────────────────────────────────────────────────┘
+1 vulnerabilities found - Packages audited: 1456
+Severity: 1 Moderate
+✨  Done in 2.07s.

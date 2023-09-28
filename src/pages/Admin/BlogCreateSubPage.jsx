@@ -76,7 +76,7 @@ const BlogCreateSubPage = () => {
                     .then(() => navigate("/admin/blog"));
                 });
               } catch (err) {
-                alert(err);
+                navigate("/error");
               }
             },
           },
@@ -123,9 +123,21 @@ const BlogCreateSubPage = () => {
           sx={{ border: "1px solid #ccc!important", color: "#2A3036" }}
         >
           <input
-            accept="image/*"
+            accept=".jpg, .jpeg, .png"
             onChange={(e) => {
-              setImageUpload(e.target.files[0]);
+              const selectedFile = e.target.files[0];
+              if (selectedFile) {
+                const fileExtension = selectedFile.name
+                  .split(".")
+                  .pop()
+                  .toLowerCase();
+                if (["jpg", "jpeg", "png"].includes(fileExtension)) {
+                  setImageUpload(selectedFile);
+                } else {
+                  alert("Please select a valid JPEG, JPG, or PNG image.");
+                  e.target.value = null; // Clear the selected file input
+                }
+              }
             }}
             multiple
             type="file"

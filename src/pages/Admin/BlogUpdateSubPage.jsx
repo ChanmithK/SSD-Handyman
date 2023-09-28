@@ -18,7 +18,6 @@ const BlogUpdateSubPage = () => {
   useEffect(() => {
     setTitle(location.state.title);
     setContent(location.state.content);
-    console.log(location.state.id);
   }, []);
 
   const updateBlog = async () => {
@@ -35,7 +34,7 @@ const BlogUpdateSubPage = () => {
                 content: content,
               }).then(() => navigate("/admin/blog"));
             } catch (err) {
-              alert(err);
+              navigate("/error");
             }
           },
         },
@@ -62,7 +61,6 @@ const BlogUpdateSubPage = () => {
         onInput={(e) => {
           e.target.value = e.target.value.slice(0, 70);
           setTitle(e.target.value);
-          console.log(title);
         }}
       />
       <TextField
