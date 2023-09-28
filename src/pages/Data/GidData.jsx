@@ -192,3 +192,5 @@ export const Gigs = [
     price: "Rs.3000",
   },
 ];
+
+export const GigOrderData = [];
