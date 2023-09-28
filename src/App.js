@@ -54,6 +54,7 @@ import SignIn from "./pages/Frontend/Common/SignIn";
 import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
 import ViewGigOrdersMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
+import ProfileMainPage from "./pages/Frontend/Common/ProfileMainPage";
 
 export function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,8 @@ export function App() {
       dispatch(setTileName("Create a New Gig"));
     } else if (location.pathname === "/view-buyer-requests") {
       dispatch(setTileName("Buyer Requests"));
+    } else if (location.pathname === "/profile") {
+      dispatch(setTileName("Profile"));
     }
   }, [location.pathname]);
 
@@ -386,6 +389,15 @@ export function App() {
             element={
               <ProtectedRoute>
                 <ViewGigMainPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfileMainPage />
               </ProtectedRoute>
             }
           />

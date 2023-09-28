@@ -97,7 +97,6 @@ const CreateGig = () => {
 
   const createGig = async (values) => {
     const { title, description, price, completionTime } = values;
-    console.log(userNew[0]?.profileImage);
     try {
       const imageRef = ref(storage, `gig-images/${image.name + Date.now()}`);
 
