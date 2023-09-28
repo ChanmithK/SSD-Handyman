@@ -52,6 +52,11 @@ import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
 import SignUp from "./pages/Frontend/Common/SignUp";
 import SignIn from "./pages/Frontend/Common/SignIn";
 
+
+//vishara
+// import ViewGigsHandyman from "./pages/Frontend/Handyman/SubPages/ViewGigs";
+import HandymanGigs from "./pages/Frontend/Handyman/HandymanGigs"
+
 export function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -73,6 +78,8 @@ export function App() {
       dispatch(setTileName("View Order"));
     } else if (location.pathname === "/update-order") {
       dispatch(setTileName("Update Order"));
+    } else if (location.pathname === "/handyman-gigs") {
+      dispatch(setTileName("Handyman Gigs"));
     }
   }, [location.pathname]);
 
@@ -343,6 +350,14 @@ export function App() {
             element={
               <ProtectedRoute>
                 <CreateGig />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/handyman-gigs"
+            element={
+              <ProtectedRoute>
+                <HandymanGigs />
               </ProtectedRoute>
             }
           />
