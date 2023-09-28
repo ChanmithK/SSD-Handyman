@@ -14,7 +14,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../../../../firebase-config";
 
 const style = {
   position: "absolute",
@@ -33,10 +35,7 @@ function BuyerRequests() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+  const [buyerRequests, setBuyerRequests] = useState([]);
 
   const rows = [
     {
@@ -85,6 +84,15 @@ function BuyerRequests() {
       budget: "$500",
     },
   ];
+
+  useEffect(() => {
+    const buyerRequestsCollectionRef = collection(db, "buyerRequests");
+    const getBuyerRequests = async () => {
+      const data = await getDocs(buyerRequestsCollectionRef);
+      setBuyerRequests(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getBuyerRequests();
+  }, []);
 
   return (
     <Box
@@ -170,7 +178,7 @@ function BuyerRequests() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {buyerRequests?.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -226,7 +234,7 @@ function BuyerRequests() {
                   }}
                   align="left"
                 >
-                  {row.budget}
+                  Rs.{row.budget}
                 </TableCell>
                 <TableCell align="right">
                   <Button
@@ -254,17 +262,17 @@ function BuyerRequests() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} position={"relative"}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography
                 sx={{
                   fontSize: "17px",
-                  color: "#404145",
-                  fontWeight: "450",
+                  color: "#f96a20",
+                  fontWeight: "550",
                 }}
               >
-                Craft an Impressive Offer Offer to Secure This Job...
+                Craft an Impressive Offer to Secure This Job...
               </Typography>
             </Grid>
 
@@ -295,44 +303,44 @@ function BuyerRequests() {
                 fullWidth
               />
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                mt: 2,
-              }}
-            >
-              <Box>
-                <Button
-                  sx={{
-                    minWidth: 110,
-                    color: "#062b56",
-                    borderColor: "#062b56",
-                    fontSize: "12px",
-                    mr: 2,
-                  }}
-                  variant="outlined"
-                  onClick={handleClose}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  sx={{
-                    minWidth: 110,
-                    color: "#ffffff",
-                    borderColor: "#062b56",
-                    fontSize: "12px",
-                  }}
-                  variant="contained"
-                  onClick={handleOpen}
-                >
-                  Send Offer
-                </Button>
-              </Box>
-            </Grid>
           </Grid>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 30,
+              right: "3.5%",
+            }}
+          >
+            <Button
+              sx={{
+                minWidth: 110,
+                color: "#062b56",
+                borderColor: "#062b56",
+                fontSize: "12px",
+                mr: 2,
+              }}
+              variant="outlined"
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                minWidth: 110,
+                color: "#ffffff",
+                borderColor: "#062b56",
+                fontSize: "12px",
+                backgroundColor: "#062b56",
+                "&:hover": {
+                  backgroundColor: "#0a3e7c",
+                },
+              }}
+              variant="contained"
+              onClick={handleOpen}
+            >
+              Send Offer
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </Box>
