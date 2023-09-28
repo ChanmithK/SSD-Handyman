@@ -52,6 +52,8 @@ import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
 import SignUp from "./pages/Frontend/Common/SignUp";
 import SignIn from "./pages/Frontend/Common/SignIn";
 import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
+import ViewGigOrdersMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
+import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 
 export function App() {
   const dispatch = useDispatch();
@@ -346,6 +348,15 @@ export function App() {
             element={
               <ProtectedRoute>
                 <CreateGigMainPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view-buyer-requests"
+            element={
+              <ProtectedRoute>
+                <BuyerRequestsMainPage />
               </ProtectedRoute>
             }
           />

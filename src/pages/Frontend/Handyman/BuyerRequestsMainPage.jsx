@@ -1,10 +1,10 @@
 import React from "react";
-import MenuAppBar from "../../../components/Customer/layouts/Appbar";
-import MiniDrawer from "../../../components/Customer/layouts/Drawer";
+import MenuAppBar from "../../../components/Handyman/layouts/Appbar";
+import MiniDrawer from "../../../components/Handyman/layouts/Drawer";
 import classes from "./CustomGrid.module.css";
-import ViewGigs from "./SubPages/ViewGigs";
+import BRTabPannl from "./SubPages/BRTabPannl";
 
-function ViewGigMainPage() {
+function BuyerRequestsMainPage() {
   return (
     <div>
       <div className={classes.row}>
@@ -20,11 +20,11 @@ function ViewGigMainPage() {
           className={`${classes["col"]} ${classes["col-11"]}`}
           style={{ paddingTop: 60 }}
         >
-          <ViewGigs />
+          <BRTabPannl />
         </div>
       </div>
     </div>
   );
 }
 
-export default ViewGigMainPage;
+export default BuyerRequestsMainPage;
