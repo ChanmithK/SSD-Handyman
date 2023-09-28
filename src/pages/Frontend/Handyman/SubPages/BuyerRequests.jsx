@@ -14,7 +14,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../../../../firebase-config";
 
 const style = {
   position: "absolute",
@@ -33,10 +35,7 @@ function BuyerRequests() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+  const [buyerRequests, setBuyerRequests] = useState([]);
 
   const rows = [
     {
@@ -85,6 +84,15 @@ function BuyerRequests() {
       budget: "$500",
     },
   ];
+
+  useEffect(() => {
+    const buyerRequestsCollectionRef = collection(db, "buyerRequests");
+    const getBuyerRequests = async () => {
+      const data = await getDocs(buyerRequestsCollectionRef);
+      setBuyerRequests(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getBuyerRequests();
+  }, []);
 
   return (
     <Box
@@ -170,7 +178,7 @@ function BuyerRequests() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {buyerRequests?.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -226,7 +234,7 @@ function BuyerRequests() {
                   }}
                   align="left"
                 >
-                  {row.budget}
+                  Rs.{row.budget}
                 </TableCell>
                 <TableCell align="right">
                   <Button
