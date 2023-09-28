@@ -78,6 +78,8 @@ export function App() {
       dispatch(setTileName("Update Order"));
     } else if (location.pathname === "/create-gig") {
       dispatch(setTileName("Create a New Gig"));
+    } else if (location.pathname === "/view-buyer-requests") {
+      dispatch(setTileName("Buyer Requests"));
     }
   }, [location.pathname]);
 

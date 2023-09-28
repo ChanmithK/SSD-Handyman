@@ -16,6 +16,7 @@ import { styled } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../../Context/UserAuthContext";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import QueueIcon from "@mui/icons-material/Queue";
 
 const drawerWidth = 64;
 
@@ -92,10 +93,10 @@ export default function MiniDrawer() {
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("/trainers");
+                navigate("");
               }}
             >
-              <GroupsIcon
+              <QueueIcon
                 sx={{
                   color: "white",
                 }}
@@ -104,10 +105,10 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/trainers");
+                navigate("");
               }}
             >
-              <GroupsIcon
+              <QueueIcon
                 sx={{
                   color: "#2A3036",
                 }}
