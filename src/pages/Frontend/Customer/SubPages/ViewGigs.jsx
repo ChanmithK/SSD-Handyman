@@ -15,10 +15,13 @@ import React, { useEffect, useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import StarIcon from "@mui/icons-material/Star";
 import { Gigs } from "../../../Data/GidData";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../../firebase-config";
 
 function ViewGigs() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedMenuItem, setSelectedMenuItem] = useState("Best Selling");
+  const [gigs, setGigs] = useState([]);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -35,6 +38,15 @@ function ViewGigs() {
 
   useEffect(() => {
     setAnchorEl(document.getElementById("demo-positioned-button"));
+  }, []);
+
+  useEffect(() => {
+    const gigsCollectionRef = collection(db, "gigs");
+    const getGigs = async () => {
+      const data = await getDocs(gigsCollectionRef);
+      setGigs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getGigs();
   }, []);
 
   return (
@@ -123,7 +135,7 @@ function ViewGigs() {
         </Grid>
         <Grid item container spacing={4.5}>
           {/* Single card */}
-          {Gigs.map((gig, index) => (
+          {gigs?.map((gig, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <Card
                 sx={{
@@ -210,7 +222,7 @@ function ViewGigs() {
                           minHeight: 48,
                         }}
                       >
-                        {gig.title}Modern
+                        {gig.title}
                       </Typography>
                     </Grid>
                     <Grid item container xs={12} mt={1.5}>
@@ -255,7 +267,7 @@ function ViewGigs() {
                           color: "#222325",
                         }}
                       >
-                        From {gig.price}
+                        From Rs.{gig.price}
                       </Typography>
                     </Grid>
                   </Grid>
