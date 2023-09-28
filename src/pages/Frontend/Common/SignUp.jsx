@@ -41,9 +41,7 @@ function SignUp() {
     age: yup
       .string()
       .required("Age is required")
-      .matches(/^\d+$/, "Age must be a number")
-      .min(18, "Age must be at least 18")
-      .max(100, "Age must be at most 100"),
+      .matches(/^(1[89]|[2-9][0-9]|100)$/, "Age must be between 18 and 100"),
     mobile: yup
       .string()
       .required("Mobile is required")
