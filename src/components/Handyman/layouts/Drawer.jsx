@@ -16,6 +16,9 @@ import { styled } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../../Context/UserAuthContext";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const drawerWidth = 64;
 
@@ -58,44 +61,16 @@ export default function MiniDrawer() {
     <Box>
       <StyledList>
         <ListItem disablePadding>
-          {location.pathname === "/view-gigs" ? (
-            <StyledListItemButton
-              sx={{ background: "#062b56" }}
-              onClick={() => {
-                navigate("/view-gigs");
-              }}
-            >
-              <LibraryBooksIcon
-                sx={{
-                  color: "white",
-                }}
-              />
-            </StyledListItemButton>
-          ) : (
-            <StyledListItemButton
-              onClick={() => {
-                navigate("/view-gigs");
-              }}
-            >
-              <FeedIcon
-                sx={{
-                  color: "#2A3036",
-                }}
-              />
-            </StyledListItemButton>
-          )}
-        </ListItem>
-        <ListItem disablePadding>
           {location.pathname === "/trainers" ||
           location.pathname === "/trainer-details" ||
           location.pathname === "/make-order" ? (
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("/trainers");
+                navigate("");
               }}
             >
-              <GroupsIcon
+              <PermMediaIcon
                 sx={{
                   color: "white",
                 }}
@@ -104,10 +79,10 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/trainers");
+                navigate("");
               }}
             >
-              <GroupsIcon
+              <PermMediaIcon
                 sx={{
                   color: "#2A3036",
                 }}
@@ -122,10 +97,10 @@ export default function MiniDrawer() {
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("/orders");
+                navigate("");
               }}
             >
-              <ListAltIcon
+              <ShoppingCartIcon
                 sx={{
                   color: "white",
                 }}
@@ -134,10 +109,38 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/orders");
+                navigate("");
               }}
             >
-              <ListAltIcon
+              <ShoppingCartIcon
+                sx={{
+                  color: "#2A3036",
+                }}
+              />
+            </StyledListItemButton>
+          )}
+        </ListItem>
+        <ListItem disablePadding>
+          {location.pathname === "/view-buyer-requests" ? (
+            <StyledListItemButton
+              sx={{ background: "#062b56" }}
+              onClick={() => {
+                navigate("/view-buyer-requests");
+              }}
+            >
+              <Diversity3Icon
+                sx={{
+                  color: "white",
+                }}
+              />
+            </StyledListItemButton>
+          ) : (
+            <StyledListItemButton
+              onClick={() => {
+                navigate("/view-buyer-requests");
+              }}
+            >
+              <Diversity3Icon
                 sx={{
                   color: "#2A3036",
                 }}
@@ -150,7 +153,7 @@ export default function MiniDrawer() {
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("/schedules");
+                navigate("");
               }}
             >
               <EventNoteIcon
@@ -162,7 +165,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/schedules");
+                navigate("");
               }}
             >
               <EventNoteIcon
