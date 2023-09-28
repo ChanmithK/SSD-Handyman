@@ -74,6 +74,8 @@ export function App() {
       dispatch(setTileName("View Order"));
     } else if (location.pathname === "/update-order") {
       dispatch(setTileName("Update Order"));
+    } else if (location.pathname === "/create-gig") {
+      dispatch(setTileName("Create a New Gig"));
     }
   }, [location.pathname]);
 
@@ -374,6 +376,8 @@ export function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </UserAuthContextProvider>
     </div>
