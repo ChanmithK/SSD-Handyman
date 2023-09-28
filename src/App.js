@@ -55,10 +55,11 @@ import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
 import ViewGigOrdersMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 
-
 //vishara
-// import ViewGigsHandyman from "./pages/Frontend/Handyman/SubPages/ViewGigs";
-import HandymanGigs from "./pages/Frontend/Handyman/HandymanGigs"
+import HandymanGigsPage from "./pages/Frontend/Handyman/HandymanGigsPage";
+import HandymanDirReqPage from "./pages/Frontend/Handyman/HandymanDirReqPage";
+import CustomerBuyerRequests from "./pages/Frontend/Customer/CustomerBuyerRequests";
+import HandymanResponsePage from "./pages/Frontend/Customer/HandymanResponsePage";
 
 export function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,12 @@ export function App() {
       dispatch(setTileName("Buyer Requests"));
     } else if (location.pathname === "/handyman-gigs") {
       dispatch(setTileName("Handyman Gigs"));
+    } else if (location.pathname === "/handyman-direct-requests") {
+      dispatch(setTileName("Handyman Direct Requests"));
+    } else if (location.pathname === "/customer-requests") {
+      dispatch(setTileName("Customer Requests and Response"));
+    } else if (location.pathname === "/handyman-responses") {
+      dispatch(setTileName("Handyman Responses"));
     }
   }, [location.pathname]);
 
@@ -373,7 +380,16 @@ export function App() {
             path="/handyman-gigs"
             element={
               <ProtectedRoute>
-                <HandymanGigs />
+                <HandymanGigsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/handyman-direct-requests"
+            element={
+              <ProtectedRoute>
+                <HandymanDirReqPage />
               </ProtectedRoute>
             }
           />
@@ -401,6 +417,24 @@ export function App() {
             element={
               <ProtectedRoute>
                 <ViewGigMainPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/customer-requests"
+            element={
+              <ProtectedRoute>
+                <CustomerBuyerRequests />
+              </ProtectedRoute>
+            }
+          />
+
+<Route
+            path="/handyman-responses"
+            element={
+              <ProtectedRoute>
+                <HandymanResponsePage />
               </ProtectedRoute>
             }
           />
