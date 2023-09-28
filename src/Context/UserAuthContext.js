@@ -18,7 +18,6 @@ const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
   const dispatch = useDispatch();
-  const [userDetails, setUserDetails] = useState({});
   const usersCollectionRef = collection(db, "users");
 
   const [user, setUser] = useState({});
@@ -45,54 +44,11 @@ export function UserAuthContextProvider({ children }) {
   };
 
   //Broken Authentication Flaws - Praveen
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-  //     setUser(currentuser);
-
-  //     const token = currentuser.accessToken;
-  //     const tokenOptions = {
-  //       secure: true,
-  //       httpOnly: true,
-  //       sameSite: "strict",
-  //       expires: 1,
-  //     };
-  //     Cookies.set("token", token, tokenOptions);
-
-  //     const currectUser = {
-  //       username: currentuser.displayName,
-  //       userImage: currentuser.photoURL,
-  //       userId: currentuser.uid,
-  //       email: currentuser.email,
-  //     };
-  //     dispatch(setUserData(currectUser));
-
-  //     if (currentuser.displayName === null) {
-  //       const getUser = async () => {
-  //         const filterdData = query(
-  //           usersCollectionRef,
-  //           where("user", "==", user.uid)
-  //         );
-  //         const querySnapshot = await getDocs(filterdData);
-  //         setUserDetails(
-  //           querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //         );
-  //       };
-  //       getUser().then(dispatch(setUserData(userDetails)));
-
-  //       console.log("This is NEW user DATA", userDetails);
-  //     }
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
 
-      const token = currentUser.accessToken;
+      const token = currentUser?.accessToken;
       const tokenOptions = {
         secure: true,
         httpOnly: true,
@@ -102,15 +58,15 @@ export function UserAuthContextProvider({ children }) {
       Cookies.set("token", token, tokenOptions);
 
       const currentUserData = {
-        username: currentUser.displayName,
-        userImage: currentUser.photoURL,
-        userId: currentUser.uid,
-        email: currentUser.email,
+        username: currentUser?.displayName,
+        userImage: currentUser?.photoURL,
+        userId: currentUser?.uid,
+        email: currentUser?.email,
       };
 
       dispatch(setUserData(currentUserData));
 
-      if (currentUser.displayName === null) {
+      if (currentUser?.displayName === null) {
         try {
           const filteredData = query(
             usersCollectionRef,
@@ -121,11 +77,7 @@ export function UserAuthContextProvider({ children }) {
             ...doc.data(),
             id: doc.id,
           }));
-
-          setUserDetails(userDetailsData);
           dispatch(setUserData(userDetailsData));
-
-          console.log("This is NEW user DATA", userDetailsData);
         } catch (error) {
           console.error("Error fetching user details:", error);
         }
@@ -136,10 +88,6 @@ export function UserAuthContextProvider({ children }) {
       unsubscribe();
     };
   }, []);
-
-  // useEffect(() => {
-
-  // }, []);
 
   return (
     <userAuthContext.Provider

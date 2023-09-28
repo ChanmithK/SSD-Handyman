@@ -11,37 +11,6 @@ import { getAuth } from '@firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
 function ClientProfileSubPage() {
-  // const auth = getAuth()
-  // const [profile, setprofile] = useState([])
-  // const user = window.localStorage.getItem('user')
-  // const userID = JSON.parse(user).user
-  // console.log('rasanga', userID)
-
-  // const fetchTasks = useCallback(async () => {
-  //   if (userID) {
-  //     const db = getDB()
-  //     const q = query(collection(db, 'users'), where('user', '==', userID))
-
-  //     try {
-  //       const results = await getDocs(q)
-  //       let resultTasks = []
-  //       results.forEach((doc) => {
-  //         resultTasks.push({
-  //           ...doc.data(),
-  //           uid: doc.id,
-  //         })
-  //       })
-
-  //       setprofile(resultTasks)
-  //     } catch (e) {
-  //       console.log(e)
-  //     }
-  //   }
-  // }, [user])
-
-  // useEffect(() => {
-  //   fetchTasks()
-  // }, [user])
 
   const [Name, setName] = useState()
   const [Email, setEmail] = useState()

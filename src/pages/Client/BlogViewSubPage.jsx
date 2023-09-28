@@ -26,8 +26,6 @@ function BlogViewSubPage() {
     getBlogs()
   }, [])
 
-  console.log('blogs', blogs)
-
   return (
     <Box
       p={0}

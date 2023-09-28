@@ -15,6 +15,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../../Context/UserAuthContext";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
 const drawerWidth = 64;
 
@@ -42,13 +43,12 @@ const StyledListItemButton = styled(ListItemButton)({
 
 export default function MiniDrawer() {
   const { LogOut, user } = useUserAuth();
-  console.log(user);
   const logOutnavigate = useNavigate();
   const handleLogout = async () => {
     try {
       await LogOut();
     } catch (error) {
-      console.log(error.message);
+      navigate("/error");
     }
   };
   const navigate = useNavigate();
@@ -58,14 +58,14 @@ export default function MiniDrawer() {
     <Box>
       <StyledList>
         <ListItem disablePadding>
-          {location.pathname === "/blogs" ? (
+          {location.pathname === "/view-gigs" ? (
             <StyledListItemButton
-              sx={{ background: "#2A3036" }}
+              sx={{ background: "#062b56" }}
               onClick={() => {
-                navigate("/blogs");
+                navigate("/view-gigs");
               }}
             >
-              <FeedIcon
+              <LibraryBooksIcon
                 sx={{
                   color: "white",
                 }}
@@ -74,7 +74,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/blogs");
+                navigate("/view-gigs");
               }}
             >
               <FeedIcon
