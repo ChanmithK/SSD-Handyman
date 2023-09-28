@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Divider,
+  Grid,
   Modal,
   Paper,
   Table,
@@ -10,10 +11,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import PhoneIcon from "@mui/icons-material/Phone";
 
 const style = {
   position: "absolute",
@@ -276,13 +279,86 @@ function SentOffers() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+        <Box sx={style} position={"relative"}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography
+                sx={{
+                  fontSize: "19px",
+                  color: "#f96a20",
+                  fontWeight: "550",
+                }}
+              >
+                Order Details
+              </Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Description"
+                variant="outlined"
+                fullWidth
+                multiline
+                maxRows={5}
+                rows={5}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Duration"
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Offer"
+                variant="outlined"
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 30,
+              right: "3.5%",
+            }}
+          >
+            <Button
+              sx={{
+                minWidth: 110,
+                color: "#062b56",
+                borderColor: "#062b56",
+                fontSize: "12px",
+                mr: 2,
+              }}
+              variant="outlined"
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                minWidth: 110,
+                color: "#ffffff",
+                borderColor: "#062b56",
+                fontSize: "12px",
+                backgroundColor: "#062b56",
+                "&:hover": {
+                  backgroundColor: "#0a3e7c",
+                },
+              }}
+              variant="contained"
+              onClick={handleOpen}
+              startIcon={<PhoneIcon />}
+            >
+              Contact Customer
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </Box>

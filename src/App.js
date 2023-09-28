@@ -75,6 +75,8 @@ export function App() {
       dispatch(setTileName("View Order"));
     } else if (location.pathname === "/update-order") {
       dispatch(setTileName("Update Order"));
+    } else if (location.pathname === "/view-buyer-requests") {
+      dispatch(setTileName("Buyer Requests"));
     }
   }, [location.pathname]);
 
