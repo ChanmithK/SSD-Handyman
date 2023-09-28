@@ -44,13 +44,16 @@ import TrainerClientDetails from "./pages/Trainer/MainPages/ClientDetails";
 import TrainerReport from "./pages/Trainer/MainPages/Report";
 import MealPlanReport from "./pages/Client/Main-Pages/MealPlanReport";
 import ErrorPage from "./components/Admin/ErrorPage";
-import CreateGig from "./pages/Frontend/Handyman/CreateGig";
+// import CreateGig from "./pages/Frontend/Handyman/CreateGig";
 import ViewGigs from "./pages/Frontend/Customer/SubPages/ViewGigs";
 import ViewGigMainPage from "./pages/Frontend/Customer/ViewGigMainPage";
 
 // ********************** NILAKSHA IMPORTS ********************** //
 import SignUp from "./pages/Frontend/Common/SignUp";
 import SignIn from "./pages/Frontend/Common/SignIn";
+import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
+import ViewGigOrdersMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
+import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 
 
 //vishara
@@ -78,6 +81,10 @@ export function App() {
       dispatch(setTileName("View Order"));
     } else if (location.pathname === "/update-order") {
       dispatch(setTileName("Update Order"));
+    } else if (location.pathname === "/create-gig") {
+      dispatch(setTileName("Create a New Gig"));
+    } else if (location.pathname === "/view-buyer-requests") {
+      dispatch(setTileName("Buyer Requests"));
     } else if (location.pathname === "/handyman-gigs") {
       dispatch(setTileName("Handyman Gigs"));
     }
@@ -349,7 +356,16 @@ export function App() {
             path="/create-gig"
             element={
               <ProtectedRoute>
-                <CreateGig />
+                <CreateGigMainPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view-buyer-requests"
+            element={
+              <ProtectedRoute>
+                <BuyerRequestsMainPage />
               </ProtectedRoute>
             }
           />
@@ -388,6 +404,8 @@ export function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </UserAuthContextProvider>
     </div>
