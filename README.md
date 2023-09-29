@@ -11,6 +11,16 @@ HandyMan is a comprehensive web application designed to address your everyday ha
 |  IT20261900   | Prabuddhi K. A. V.   |
 |  IT20227890   |   Muthukumarana M. W. A. N. C. |
 
+
+## Github Link to the Original Project
+`https://github.com/ChanmithK/FitFlame`
+
+## Github Link to the Modified Project 
+`https://github.com/ChanmithK/SSD-FitFlame`
+
+## Link to the YouTube Video
+``
+
 ## Installation
 
 Follow these steps to set up HandyMan on your local machine:
