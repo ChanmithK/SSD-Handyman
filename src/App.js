@@ -60,6 +60,8 @@ import HandymanGigsPage from "./pages/Frontend/Handyman/HandymanGigsPage";
 import HandymanDirReqPage from "./pages/Frontend/Handyman/HandymanDirReqPage";
 import CustomerBuyerRequests from "./pages/Frontend/Customer/CustomerBuyerRequests";
 import HandymanResponsePage from "./pages/Frontend/Customer/HandymanResponsePage";
+import HandymanProtectedRoute from "./components/HandymanProtectedRoute";
+import CustomerProtectedRoutes from "./components/CustomerProtectedRoutes";
 
 export function App() {
   const dispatch = useDispatch();
@@ -360,84 +362,72 @@ export function App() {
 
           {/* Handyman */}
           <Route
-            path="/create-gig"
-            element={
-              <ProtectedRoute>
-                <CreateGigMainPage />
-              </ProtectedRoute>
-            }
-          />
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route path="/create-gig" element={<CreateGigMainPage />} />
+          </Route>
 
           <Route
-            path="/view-buyer-requests"
-            element={
-              <ProtectedRoute>
-                <BuyerRequestsMainPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/handyman-gigs"
-            element={
-              <ProtectedRoute>
-                <HandymanGigsPage />
-              </ProtectedRoute>
-            }
-          />
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route
+              path="/view-buyer-requests"
+              element={<BuyerRequestsMainPage />}
+            />
+          </Route>
 
           <Route
-            path="/handyman-direct-requests"
-            element={
-              <ProtectedRoute>
-                <HandymanDirReqPage />
-              </ProtectedRoute>
-            }
-          />
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route path="/handyman-gigs" element={<HandymanGigsPage />} />
+          </Route>
+
+          <Route
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route
+              path="/handyman-direct-requests"
+              element={<HandymanDirReqPage />}
+            />
+          </Route>
 
           {/* Customer */}
-          <Route
-            path="/client-home"
-            element={
-              <ProtectedRoute>
-                <MakeOrder />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/make-order"
-            element={
-              <ProtectedRoute>
-                <MakeOrder />
-              </ProtectedRoute>
-            }
-          />
 
           <Route
-            path="/view-gigs"
-            element={
-              <ProtectedRoute>
-                <ViewGigMainPage />
-              </ProtectedRoute>
-            }
-          />
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route path="/client-home" element={<MakeOrder />} />
+          </Route>
 
           <Route
-            path="/customer-requests"
-            element={
-              <ProtectedRoute>
-                <CustomerBuyerRequests />
-              </ProtectedRoute>
-            }
-          />
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route path="/make-order" element={<MakeOrder />} />
+          </Route>
 
-<Route
-            path="/handyman-responses"
-            element={
-              <ProtectedRoute>
-                <HandymanResponsePage />
-              </ProtectedRoute>
-            }
-          />
+          <Route
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route path="/view-gigs" element={<ViewGigMainPage />} />
+          </Route>
+
+          <Route
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route
+              path="/customer-requests"
+              element={<CustomerBuyerRequests />}
+            />
+          </Route>
+
+          <Route
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route
+              path="/handyman-responses"
+              element={<HandymanResponsePage />}
+            />
+          </Route>
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>
