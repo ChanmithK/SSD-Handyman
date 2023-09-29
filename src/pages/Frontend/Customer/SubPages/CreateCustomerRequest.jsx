@@ -32,7 +32,7 @@ const style = {
   borderRadius: 3,
 };
 
-const CreateGig = () => {
+const CreateCustomerRequest = () => {
   const validationSchema = yup.object().shape({
     title: yup
       .string()
@@ -346,4 +346,4 @@ const CreateGig = () => {
   );
 };
 
-export default CreateGig;
+export default CreateCustomerRequest;
