@@ -1,3 +1,6 @@
+
+# SE4030 - Secure Software Development 
+
 # HandyMan - An Web Solution for Your Daily Handyman Tasks
 
 HandyMan is a comprehensive web application designed to address your everyday handyman tasks with a primary focus on enhancing security and addressing security vulnerabilities. This project leverages modern web technologies, including React.js, Redux, and Firebase, to deliver a seamless and secure experience for users seeking reliable solutions for their handyman needs.
@@ -22,6 +25,18 @@ HandyMan is a comprehensive web application designed to address your everyday ha
 ## Link to the YouTube Video
 ``
 <br><br>
+
+## Technologies
+Frontend - ReactJS
+
+State Management - Redux
+
+Backend and DB - Firebase
+
+Style Component Library - Material UI
+
+Version Control - Github
+
 ## Installation
 
 Follow these steps to set up HandyMan on your local machine:
