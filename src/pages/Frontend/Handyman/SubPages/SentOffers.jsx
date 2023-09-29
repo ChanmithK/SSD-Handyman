@@ -15,8 +15,18 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneIcon from "@mui/icons-material/Phone";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../../../firebase-config";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -35,40 +45,55 @@ function SentOffers() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [buyerRequests, setBuyerRequests] = useState([]);
+  const [requsetData, setRequsetData] = useState({});
+  const userNew = useSelector((state) => state.setUserData.userData);
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
+  useEffect(() => {
+    const getBuyerRequests = async () => {
+      const filterdData = query(
+        collection(db, "buyerRequestsSent"),
+        where("handyManId", "==", `${userNew[0]?.id}`)
+      );
+      const querySnapshot = await getDocs(filterdData);
+      let offeredRequests = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setBuyerRequests(offeredRequests);
+    };
+    getBuyerRequests();
+  }, []);
 
-  const rows = [
-    {
-      date: "2023-09-28",
-      category: "Plumbing",
-      buyer: "John Doe",
-      request:
-        "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
-      status: 0,
-      budget: "$50",
-    },
-    {
-      date: "2023-09-27",
-      category: "Painting",
-      buyer: "Jane Smith",
-      request:
-        "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
-      status: 1,
-      budget: "$200",
-    },
-    {
-      date: "2023-09-24",
-      category: "Landscaping",
-      buyer: "Eve Wilson",
-      request:
-        "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
-      status: 2,
-      budget: "$500",
-    },
-  ];
+  //   const rows = [
+  //     {
+  //       date: "2023-09-28",
+  //       category: "Plumbing",
+  //       buyer: "John Doe",
+  //       request:
+  //         "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
+  //       status: 0,
+  //       budget: "$50",
+  //     },
+  //     {
+  //       date: "2023-09-27",
+  //       category: "Painting",
+  //       buyer: "Jane Smith",
+  //       request:
+  //         "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
+  //       status: 1,
+  //       budget: "$200",
+  //     },
+  //     {
+  //       date: "2023-09-24",
+  //       category: "Landscaping",
+  //       buyer: "Eve Wilson",
+  //       request:
+  //         "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
+  //       status: 2,
+  //       budget: "$500",
+  //     },
+  //   ];
 
   return (
     <Box
@@ -154,13 +179,13 @@ function SentOffers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {buyerRequests.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.date}
+                  {row.brDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -170,7 +195,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.buyer}
+                  {row.brBuyer}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -180,7 +205,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.category}
+                  {row.brCategory}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -190,7 +215,7 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.request}
+                  {row.brRequest}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -200,7 +225,7 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.budget}
+                  {row.brBudget}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -262,7 +287,15 @@ function SentOffers() {
                       fontSize: "12px",
                     }}
                     variant="outlined"
-                    onClick={handleOpen}
+                    onClick={() => {
+                      const getBlogs = async () => {
+                        const data = doc(db, "buyerRequestsSent", row.id);
+                        const docSnap = await getDoc(data);
+                        setRequsetData(docSnap.data());
+                      };
+
+                      getBlogs().then(handleOpen);
+                    }}
                   >
                     View Offer
                   </Button>
@@ -302,6 +335,10 @@ function SentOffers() {
                 multiline
                 maxRows={5}
                 rows={5}
+                value={requsetData?.description}
+                aria-readonlyInputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -310,6 +347,10 @@ function SentOffers() {
                 label="Duration"
                 variant="outlined"
                 fullWidth
+                value={requsetData?.duration}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -318,6 +359,10 @@ function SentOffers() {
                 label="Offer"
                 variant="outlined"
                 fullWidth
+                value={requsetData?.offer}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
           </Grid>
