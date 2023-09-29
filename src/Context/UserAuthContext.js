@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/UserDataSlice";
 import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import { setLoading } from "../redux/loadingSlice";
 
 const userAuthContext = createContext();
 
@@ -47,7 +48,6 @@ export function UserAuthContextProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-
       const token = currentUser?.accessToken;
       const tokenOptions = {
         secure: true,
