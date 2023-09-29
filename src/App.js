@@ -95,11 +95,11 @@ export function App() {
     } else if (location.pathname === "/handyman-gigs") {
       dispatch(setTileName("Handyman Gigs"));
     } else if (location.pathname === "/handyman-direct-requests") {
-      dispatch(setTileName("Handyman Direct Requests"));
+      dispatch(setTileName("Handyman Direct Orders"));
     } else if (location.pathname === "/customer-requests") {
-      dispatch(setTileName("Order Requests and Response"));
+      dispatch(setTileName("Order Requests and Responses"));
     } else if (location.pathname === "/handyman-responses") {
-      dispatch(setTileName("Handyman Responses"));
+      dispatch(setTileName("Handyman Order Responses"));
     }
   }, [location.pathname]);
 
