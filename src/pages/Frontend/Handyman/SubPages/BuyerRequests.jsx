@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, where, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebase-config";
 import { useForm } from "react-hook-form";
@@ -40,6 +40,7 @@ function BuyerRequests() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [buyerRequests, setBuyerRequests] = useState([]);
+  const userNew = useSelector((state) => state.setUserData.userData);
 
   const rows = [
     {
@@ -104,8 +105,6 @@ function BuyerRequests() {
       .required("Price is required"),
   });
 
-  const userNew = useSelector((state) => state.setUserData.userData);
-
   const {
     register,
     handleSubmit,
@@ -150,10 +149,32 @@ function BuyerRequests() {
     const buyerRequestsCollectionRef = collection(db, "buyerRequests");
     const getBuyerRequests = async () => {
       const data = await getDocs(buyerRequestsCollectionRef);
-      setBuyerRequests(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const buyerRequestsData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      if (userNew?.id) {
+        for (const buyerRequest of buyerRequestsData) {
+          const buyerRequestsSentQuery = query(
+            collection(db, "buyerRequestsSent"),
+            where("handyManId", "==", userNew.id),
+            where("buyerRequestId", "==", buyerRequest.id)
+          );
+
+          const buyerRequestsSentSnapshot = await getDocs(
+            buyerRequestsSentQuery
+          );
+          if (buyerRequestsSentSnapshot.size > 0) {
+            buyerRequest.isSendOfferDisabled = true;
+          }
+        }
+      }
+
+      setBuyerRequests(buyerRequestsData);
     };
     getBuyerRequests();
-  }, []);
+  }, [userNew?.id]);
 
   return (
     <Box
@@ -299,6 +320,7 @@ function BuyerRequests() {
                 </TableCell>
                 <TableCell align="right">
                   <Button
+                    disabled={row.isSendOfferDisabled}
                     sx={{
                       minWidth: 110,
                       color: "#062b56",
