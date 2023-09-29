@@ -89,7 +89,7 @@ export default function MiniDrawer() {
         <ListItem disablePadding>
           {location.pathname === "/customer-requests" ? (
             <StyledListItemButton
-              sx={{ background: "#2A3036" }}
+              sx={{ background: "#062b56" }}
               onClick={() => {
                 navigate("/customer-requests");
               }}
@@ -117,7 +117,7 @@ export default function MiniDrawer() {
         <ListItem disablePadding>
           {location.pathname === "/handyman-responses" ? (
             <StyledListItemButton
-              sx={{ background: "#2A3036" }}
+              sx={{ background: "#062b56" }}
               onClick={() => {
                 navigate("/handyman-responses");
               }}
@@ -145,7 +145,7 @@ export default function MiniDrawer() {
         <ListItem disablePadding>
           {location.pathname === "/schedules" ? (
             <StyledListItemButton
-              sx={{ background: "#2A3036" }}
+              sx={{ background: "#062b56" }}
               onClick={() => {
                 navigate("/schedules");
               }}
@@ -159,7 +159,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/schedules");
+                navigate("");
               }}
             >
               <EventNoteIcon
