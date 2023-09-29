@@ -14,9 +14,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../../../../firebase-config";
+import { db, auth } from "../../../../firebase-config";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -35,64 +43,27 @@ function DirectRequests() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [buyerRequests, setBuyerRequests] = useState([]);
-
-  const rows = [
-    {
-      date: "2023-09-28",
-      category: "Plumbing",
-      buyer: "John Doe",
-      request:
-        "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
-      duration: "2 hours",
-      budget: "$50",
-    },
-    {
-      date: "2023-09-27",
-      category: "Painting",
-      buyer: "Jane Smith",
-      request:
-        "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
-      duration: "1 day",
-      budget: "$200",
-    },
-    {
-      date: "2023-09-26",
-      category: "Electrical",
-      buyer: "Bob Johnson",
-      request:
-        "I need assistance with installing a ceiling fan in my bedroom. The room already has a junction box, and I have purchased the ceiling fan. Please let me know your availability and cost for installation.",
-      duration: "3 hours",
-      budget: "$75",
-    },
-    {
-      date: "2023-09-25",
-      category: "Locksmith",
-      buyer: "Alice Brown",
-      request:
-        "My front door has a broken lock mechanism, and I'm having trouble opening and closing it. I need a handyman to repair the lock and ensure the door operates smoothly. Please provide a cost estimate.",
-      duration: "4 hours",
-      budget: "$100",
-    },
-    {
-      date: "2023-09-24",
-      category: "Landscaping",
-      buyer: "Eve Wilson",
-      request:
-        "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
-      duration: "1 week",
-      budget: "$500",
-    },
-  ];
+  const [handymanOrderResponse, setHandymanOrderResponse] = useState([]);
+  const userNew = useSelector((state) => state.setUserData.userData);
 
   useEffect(() => {
-    const buyerRequestsCollectionRef = collection(db, "buyerRequests");
-    const getBuyerRequests = async () => {
-      const data = await getDocs(buyerRequestsCollectionRef);
-      setBuyerRequests(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const getHandymanOrderResponse = async () => {
+      const filterdData = query(
+        collection(db, "orders"),
+        where("handymanID", "==", `${userNew?.id}`)
+      );
+      const querySnapshot = await getDocs(filterdData);
+      let offeredRequests = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setHandymanOrderResponse(offeredRequests);
     };
-    getBuyerRequests();
-  }, []);
+    getHandymanOrderResponse();
+  }, [userNew]);
+
+  console.log("handyman orders", handymanOrderResponse);
+
 
   return (
     <Box
@@ -112,7 +83,7 @@ function DirectRequests() {
                   minWidth: "140px",
                 }}
               >
-                DATE
+                TITLE
               </TableCell>
               <TableCell
                 sx={{
@@ -123,7 +94,7 @@ function DirectRequests() {
                 }}
                 align="left"
               >
-                BUYER
+                DESCRIPTION
               </TableCell>
               <TableCell
                 sx={{
@@ -133,7 +104,7 @@ function DirectRequests() {
                 }}
                 align="left"
               >
-                CATEGORY
+                CUSTOMER
               </TableCell>
               <TableCell
                 sx={{
@@ -143,7 +114,7 @@ function DirectRequests() {
                 }}
                 align="left"
               >
-                REQUEST
+                CITY
               </TableCell>
               <TableCell
                 sx={{
@@ -153,7 +124,7 @@ function DirectRequests() {
                 }}
                 align="left"
               >
-                DURATION
+                REQUIRED DATE
               </TableCell>
               <TableCell
                 sx={{
@@ -163,7 +134,7 @@ function DirectRequests() {
                 }}
                 align="left"
               >
-                BUDGET
+                MY NOTE
               </TableCell>
               <TableCell
                 sx={{
@@ -178,13 +149,13 @@ function DirectRequests() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {buyerRequests?.map((row) => (
+            {handymanOrderResponse?.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.date}
+                  {row.gigTitle}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -194,7 +165,7 @@ function DirectRequests() {
                   }}
                   align="let"
                 >
-                  {row.buyer}
+                  {row.description.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -204,7 +175,7 @@ function DirectRequests() {
                   }}
                   align="let"
                 >
-                  {row.category}
+                  {row.cusID}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -214,7 +185,7 @@ function DirectRequests() {
                   }}
                   align="left"
                 >
-                  {row.request}
+                  {row.city}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -224,7 +195,7 @@ function DirectRequests() {
                   }}
                   align="left"
                 >
-                  {row.duration}
+                  {row.requiredDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -234,7 +205,7 @@ function DirectRequests() {
                   }}
                   align="left"
                 >
-                  Rs.{row.budget}
+                  {row.note.slice(0, 20)}
                 </TableCell>
                 <TableCell align="right">
                   <Button
@@ -247,7 +218,7 @@ function DirectRequests() {
                     variant="outlined"
                     onClick={handleOpen}
                   >
-                    Send Offer
+                    View Details
                   </Button>
                 </TableCell>
               </TableRow>
