@@ -129,7 +129,16 @@ const CreateGig = () => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
+        mb: 2,
+        mx: 2,
+      }}
+    >
       <ToastContainer />
       <Button
         variant="contained"

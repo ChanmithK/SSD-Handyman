@@ -84,7 +84,7 @@ const EditProfile = () => {
           .catch((err) => console.log(err));
       }
 
-      navigate("/profile");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
