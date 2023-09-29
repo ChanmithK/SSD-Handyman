@@ -1,11 +1,10 @@
 import React from "react";
-import MenuAppBar from "../../../components/Customer/layouts/Appbar";
-import MiniDrawer from "../../../components/Customer/layouts/Drawer";
-import classes from "./CustomGrid.module.css";
-import BRTabPannl from "./SubPages/BRTabPannl";
-import CreateCustomerRequestMainPage from "./CreateCustomerRequestMainPage";
+import MenuAppBar from "../../../components/Handyman/layouts/Appbar";
+import MiniDrawer from "../../../components/Handyman/layouts/Drawer";
+import classes from "../Customer/CustomGrid.module.css";
+import Profile from "./SubPages/Profile";
 
-function CustomerBuyerRequests() {
+function ProfileMainPage() {
   return (
     <div>
       <div className={classes.row}>
@@ -21,12 +20,11 @@ function CustomerBuyerRequests() {
           className={`${classes["col"]} ${classes["col-11"]}`}
           style={{ paddingTop: 60 }}
         >
-          <CreateCustomerRequestMainPage />
-          <BRTabPannl />
+          <Profile />
         </div>
       </div>
     </div>
   );
 }
 
-export default CustomerBuyerRequests;
+export default ProfileMainPage;

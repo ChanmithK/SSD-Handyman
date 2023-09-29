@@ -27,7 +27,7 @@ function SignInForm() {
     try {
       await googleSignIn();
     } catch (error) {
-      console.log(error);
+      console.log("Error signing in with Google");
     }
   };
   useEffect(() => {

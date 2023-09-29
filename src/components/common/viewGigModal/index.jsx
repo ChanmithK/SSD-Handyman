@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import { Gigs } from "../../../pages/Data/GidData";
 import { Grid, TextField } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import SendRequestModel from "../sendRequestModal";
 
 const style = {
   position: "absolute",
@@ -20,6 +21,7 @@ const style = {
 };
 
 export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
+  const [open, setOpen] = React.useState(false);
   return (
     <div>
       <Modal
@@ -227,7 +229,10 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                     },
                   }}
                   variant="contained"
-                  // onClick={}
+                  onClick={() => {
+                    setOpen(true);
+                    setOpenModal(false);
+                  }}
                 >
                   Send Request
                 </Button>
@@ -236,6 +241,7 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
           </Grid>
         </Box>
       </Modal>
+      <SendRequestModel open={open} setOpen={setOpen} gigData={gigData} />
     </div>
   );
 }

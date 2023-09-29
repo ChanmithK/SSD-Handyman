@@ -79,8 +79,6 @@ function SignUp() {
       await signUp(email, password);
       const user = auth.currentUser;
 
-      console.log(user);
-
       // Add user data to Firestore
       await addDoc(usersCollectionRef, {
         name,
@@ -97,7 +95,7 @@ function SignUp() {
       navigate("/");
     } catch (error) {
       // Handle validation errors
-      console.log(error);
+      console.log("Error signing up");
       ErrMsg(error.message);
     }
   };
