@@ -4,7 +4,7 @@
 # HandyMan - An Web Solution for Your Daily Handyman Tasks
 
 HandyMan is a comprehensive web application designed to address your everyday handyman tasks with a primary focus on enhancing security and addressing security vulnerabilities. This project leverages modern web technologies, including React.js, Redux, and Firebase, to deliver a seamless and secure experience for users seeking reliable solutions for their handyman needs.
-
+<br><br>
 ## Contribution of Members
 
 |   IT Number   | Name |
