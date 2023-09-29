@@ -55,11 +55,7 @@ function HandymanGigs() {
   console.log("handyman gigs", handymanGigs);
 
   return (
-    <Box
-      sx={{
-        mt: 0,
-      }}
-    >
+    <Box sx={{ width: "100%", p: 2, mt: 1 }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -157,7 +153,7 @@ function HandymanGigs() {
                   <img
                     src={row.image}
                     alt="Image"
-                    style={{ maxWidth: "100px" }}
+                    style={{ width: "150px", height: "90px", borderRadius: "3px"}}
                   />
                 </TableCell>
                 <TableCell
@@ -178,7 +174,7 @@ function HandymanGigs() {
                   }}
                   align="left"
                 >
-                  {row.price}
+                  Rs.{row.price}
                 </TableCell>
                 <TableCell align="right">
                   <Button

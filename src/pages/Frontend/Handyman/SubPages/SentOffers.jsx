@@ -65,36 +65,6 @@ function SentOffers() {
     getBuyerRequests();
   }, []);
 
-  //   const rows = [
-  //     {
-  //       date: "2023-09-28",
-  //       category: "Plumbing",
-  //       buyer: "John Doe",
-  //       request:
-  //         "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
-  //       status: 0,
-  //       budget: "$50",
-  //     },
-  //     {
-  //       date: "2023-09-27",
-  //       category: "Painting",
-  //       buyer: "Jane Smith",
-  //       request:
-  //         "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
-  //       status: 1,
-  //       budget: "$200",
-  //     },
-  //     {
-  //       date: "2023-09-24",
-  //       category: "Landscaping",
-  //       buyer: "Eve Wilson",
-  //       request:
-  //         "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
-  //       status: 2,
-  //       budget: "$500",
-  //     },
-  //   ];
-
   return (
     <Box
       sx={{
