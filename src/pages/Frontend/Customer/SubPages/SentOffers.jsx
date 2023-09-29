@@ -15,8 +15,16 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where, } from "firebase/firestore";
+  import React, { useEffect, useState } from "react";
+  import { db, auth } from "../../../../firebase-config";
 import PhoneIcon from "@mui/icons-material/Phone";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -36,39 +44,29 @@ function SentOffers() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
 
-  const rows = [
-    {
-      date: "2023-09-28",
-      category: "Plumbing",
-      buyer: "John Doe",
-      request:
-        "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
-      status: 0,
-      budget: "$50",
-    },
-    {
-      date: "2023-09-27",
-      category: "Painting",
-      buyer: "Jane Smith",
-      request:
-        "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
-      status: 1,
-      budget: "$200",
-    },
-    {
-      date: "2023-09-24",
-      category: "Landscaping",
-      buyer: "Eve Wilson",
-      request:
-        "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
-      status: 2,
-      budget: "$500",
-    },
-  ];
+  const [buyerResponses, setBuyerResponses] = useState([]);
+
+  const [requsetData, setRequsetData] = useState({});
+  const userNew = useSelector((state) => state.setUserData.userData);
+
+  useEffect(() => {
+    const getBuyerResponses = async () => {
+      const filterdData = query(
+        collection(db, "buyerRequestsSent"),
+        where("customerID", "==", `${userNew?.id}`)
+      );
+      const querySnapshot = await getDocs(filterdData);
+      let offeredRequests = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setBuyerResponses(offeredRequests);
+    };
+    getBuyerResponses();
+  }, [userNew]);
+
+  console.log("buyer response",buyerResponses);
 
   return (
     <Box
@@ -99,16 +97,6 @@ function SentOffers() {
                 }}
                 align="left"
               >
-                BUYER
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontSize: "14px",
-                  color: "#74767e",
-                  fontWeight: "500",
-                }}
-                align="left"
-              >
                 CATEGORY
               </TableCell>
               <TableCell
@@ -119,7 +107,7 @@ function SentOffers() {
                 }}
                 align="left"
               >
-                REQUEST
+                DESCRIPTION
               </TableCell>
               <TableCell
                 sx={{
@@ -129,7 +117,27 @@ function SentOffers() {
                 }}
                 align="left"
               >
-                BUDGET
+                RESPONSE
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontSize: "14px",
+                  color: "#74767e",
+                  fontWeight: "500",
+                }}
+                align="left"
+              >
+                OFFER
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontSize: "14px",
+                  color: "#74767e",
+                  fontWeight: "500",
+                }}
+                align="left"
+              >
+                DURATION
               </TableCell>
               <TableCell
                 sx={{
@@ -154,13 +162,13 @@ function SentOffers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {buyerResponses?.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.date}
+                  {row.brDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -170,7 +178,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.buyer}
+                  {row.brCategory}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -180,7 +188,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.category}
+                  {row.brRequest}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -190,7 +198,7 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.request}
+                  {row.description}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -200,7 +208,17 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.budget}
+                  {row.offer}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontSize: "14px",
+                    color: "#404145",
+                    fontWeight: "450",
+                  }}
+                  align="left"
+                >
+                  {row.duration}
                 </TableCell>
                 <TableCell
                   sx={{
