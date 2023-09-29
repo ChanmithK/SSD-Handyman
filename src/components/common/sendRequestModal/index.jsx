@@ -70,7 +70,7 @@ export default function SendRequestModel({ open, setOpen, gigData }) {
       setOpen(false);
       reset();
     } catch (error) {
-      console.log(error);
+      console.log("Error adding document");
     }
   };
 

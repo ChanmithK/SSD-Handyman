@@ -3,6 +3,7 @@ import MenuAppBar from "../../../components/Customer/layouts/Appbar";
 import MiniDrawer from "../../../components/Customer/layouts/Drawer";
 import classes from "./CustomGrid.module.css";
 import BRTabPannl from "./SubPages/BRTabPannl";
+import CreateCustomerRequestMainPage from "./CreateCustomerRequestMainPage";
 
 function CustomerBuyerRequests() {
   return (
@@ -20,6 +21,7 @@ function CustomerBuyerRequests() {
           className={`${classes["col"]} ${classes["col-11"]}`}
           style={{ paddingTop: 60 }}
         >
+          <CreateCustomerRequestMainPage />
           <BRTabPannl />
         </div>
       </div>

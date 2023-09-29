@@ -60,7 +60,6 @@ const EditProfile = () => {
   };
 
   const updateUser = async (data) => {
-    console.log(selected);
     const { name, telephone, age, city } = data;
 
     try {
@@ -86,7 +85,7 @@ const EditProfile = () => {
 
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log("Error updating document");
     }
   };
 

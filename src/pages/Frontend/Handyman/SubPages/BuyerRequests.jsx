@@ -141,7 +141,7 @@ function BuyerRequests() {
         brRequest: buyerRequests[0].request,
       });
     } catch (error) {
-      console.log(error);
+      console.log("Error adding document");
     }
   };
 
