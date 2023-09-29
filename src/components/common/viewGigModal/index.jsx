@@ -124,6 +124,7 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                     width: "100%",
                     height: "240px",
                     objectFit: "cover",
+                    borderRadius: "4px",
                   }}
                 />
                 <Box
