@@ -117,6 +117,16 @@ function SentOffers() {
                 }}
                 align="left"
               >
+                HANDYMAN NAME
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontSize: "14px",
+                  color: "#74767e",
+                  fontWeight: "500",
+                }}
+                align="left"
+              >
                 RESPONSE
               </TableCell>
               <TableCell
@@ -188,7 +198,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.brRequest}
+                  {row.brRequest.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -198,7 +208,17 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.description}
+                  {row.handyManId}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontSize: "14px",
+                    color: "#404145",
+                    fontWeight: "450",
+                  }}
+                  align="left"
+                >
+                  {row.description.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{

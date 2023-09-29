@@ -166,7 +166,7 @@ function HandymanResponses() {
                   }}
                   align="let"
                 >
-                  {/* {row.buyer} */}
+                  {row.handymanID}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -176,7 +176,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.description}
+                  {row.description.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{
