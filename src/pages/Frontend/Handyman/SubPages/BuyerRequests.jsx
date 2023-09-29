@@ -124,7 +124,6 @@ function BuyerRequests() {
   const sendBuyerRequest = async (data) => {
     const buyerRequestsCollectionRef = collection(db, "buyerRequestsSent");
 
-    console.log(buyerRequests[0]);
     const { description, duration, offer } = data;
 
     try {
@@ -132,7 +131,7 @@ function BuyerRequests() {
         description,
         duration,
         offer,
-        handyManId: userNew ? userNew[0].id : null,
+        handyManId: userNew ? userNew.id : null,
         buyerRequestsId: buyerRequests[0].id,
         status: "2",
         brDuration: buyerRequests[0].duration,

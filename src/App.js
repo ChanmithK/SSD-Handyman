@@ -408,6 +408,15 @@ export function App() {
           </Route>
 
           <Route
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route
+              path="/customer-requests"
+              element={<CustomerBuyerRequests />}
+            />
+          </Route>
+
+          <Route
             path="/make-order"
             element={
               <ProtectedRoute>

@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import { Gigs } from "../../../pages/Data/GidData";
 import { Grid } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import SendRequestModel from "../sendRequestModal";
 
 const style = {
   position: "absolute",
@@ -13,7 +14,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "60%",
-  height: "60%",
+  height: "70%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
@@ -21,6 +22,7 @@ const style = {
 };
 
 export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
+  const [open, setOpen] = React.useState(false);
   return (
     <div>
       <Modal
@@ -63,11 +65,7 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                   color: "#222325",
                 }}
               >
-                A sample refers to a smaller, manageable version of a larger
-                group. It is a subset containing the characteristics of a larger
-                population. Samples are used in statistical testing when
-                population sizes are too large for the test to include all
-                possible members or observations.
+                {gigData?.description}
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -196,13 +194,17 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                 },
               }}
               variant="contained"
-              // onClick={handleOpen}
+              onClick={() => {
+                setOpen(true);
+                setOpenModal(false);
+              }}
             >
-              Send Request
+              Send a Request
             </Button>
           </Box>
         </Box>
       </Modal>
+      <SendRequestModel open={open} setOpen={setOpen} gigData={gigData} />
     </div>
   );
 }
