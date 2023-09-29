@@ -87,13 +87,11 @@ export default function MiniDrawer() {
           )}
         </ListItem>
         <ListItem disablePadding>
-          {location.pathname === "/trainers" ||
-          location.pathname === "/trainer-details" ||
-          location.pathname === "/make-order" ? (
+          {location.pathname === "/customer-requests" ? (
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("");
+                navigate("/customer-requests");
               }}
             >
               <QueueIcon
@@ -105,7 +103,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("");
+                navigate("/customer-requests");
               }}
             >
               <QueueIcon
@@ -117,13 +115,11 @@ export default function MiniDrawer() {
           )}
         </ListItem>
         <ListItem disablePadding>
-          {location.pathname === "/orders" ||
-          location.pathname === "/view-order" ||
-          location.pathname === "/update-order" ? (
+          {location.pathname === "/handyman-responses" ? (
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("/orders");
+                navigate("/handyman-responses");
               }}
             >
               <ListAltIcon
@@ -135,7 +131,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("/orders");
+                navigate("/handyman-responses");
               }}
             >
               <ListAltIcon

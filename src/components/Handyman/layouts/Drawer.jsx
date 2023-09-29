@@ -61,13 +61,11 @@ export default function MiniDrawer() {
     <Box>
       <StyledList>
         <ListItem disablePadding>
-          {location.pathname === "/trainers" ||
-          location.pathname === "/trainer-details" ||
-          location.pathname === "/make-order" ? (
+          {location.pathname === "/handyman-gigs" ? (
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("");
+                navigate("/handyman-gigs");
               }}
             >
               <PermMediaIcon
@@ -79,7 +77,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("");
+                navigate("/handyman-gigs");
               }}
             >
               <PermMediaIcon
@@ -89,15 +87,15 @@ export default function MiniDrawer() {
               />
             </StyledListItemButton>
           )}
+
+
         </ListItem>
         <ListItem disablePadding>
-          {location.pathname === "/orders" ||
-          location.pathname === "/view-order" ||
-          location.pathname === "/update-order" ? (
+          {location.pathname === "/handyman-direct-requests" ? (
             <StyledListItemButton
               sx={{ background: "#2A3036" }}
               onClick={() => {
-                navigate("");
+                navigate("/handyman-direct-requests");
               }}
             >
               <ShoppingCartIcon
@@ -109,7 +107,7 @@ export default function MiniDrawer() {
           ) : (
             <StyledListItemButton
               onClick={() => {
-                navigate("");
+                navigate("/handyman-direct-requests");
               }}
             >
               <ShoppingCartIcon
@@ -119,6 +117,8 @@ export default function MiniDrawer() {
               />
             </StyledListItemButton>
           )}
+
+
         </ListItem>
         <ListItem disablePadding>
           {location.pathname === "/view-buyer-requests" ? (
