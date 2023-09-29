@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { collection, getDocs, addDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebase-config";
 import { useForm } from "react-hook-form";
