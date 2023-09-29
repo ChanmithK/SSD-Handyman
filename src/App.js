@@ -54,6 +54,8 @@ import SignIn from "./pages/Frontend/Common/SignIn";
 import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
 import ViewGigOrdersMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
+import ProfileMainPage from "./pages/Frontend/Common/ProfileMainPage";
+import EditProfileMainPage from "./pages/Frontend/Common/EditProfileMainPage";
 
 //vishara
 import HandymanGigsPage from "./pages/Frontend/Handyman/HandymanGigsPage";
@@ -88,6 +90,8 @@ export function App() {
       dispatch(setTileName("Create a New Gig"));
     } else if (location.pathname === "/view-buyer-requests") {
       dispatch(setTileName("Buyer Requests"));
+    } else if (location.pathname === "/profile") {
+      dispatch(setTileName("Profile"));
     } else if (location.pathname === "/handyman-gigs") {
       dispatch(setTileName("Handyman Gigs"));
     } else if (location.pathname === "/handyman-direct-requests") {
@@ -359,6 +363,8 @@ export function App() {
           {/* Common*/}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/profile" element={<ProfileMainPage />} />
+          <Route path="/profile-edit" element={<EditProfileMainPage />} />
 
           {/* Handyman */}
           <Route
@@ -392,23 +398,13 @@ export function App() {
           </Route>
 
           {/* Customer */}
-
           <Route
             element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
           >
-            <Route path="/client-home" element={<MakeOrder />} />
-          </Route>
-
-          <Route
-            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
-          >
-            <Route path="/make-order" element={<MakeOrder />} />
-          </Route>
-
-          <Route
-            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
-          >
-            <Route path="/view-gigs" element={<ViewGigMainPage />} />
+            <Route
+              path="/handyman-responses"
+              element={<HandymanResponsePage />}
+            />
           </Route>
 
           <Route
@@ -421,13 +417,22 @@ export function App() {
           </Route>
 
           <Route
-            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
-          >
-            <Route
-              path="/handyman-responses"
-              element={<HandymanResponsePage />}
-            />
-          </Route>
+            path="/make-order"
+            element={
+              <ProtectedRoute>
+                <MakeOrder />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/view-gigs"
+            element={
+              <ProtectedRoute>
+                <ViewGigMainPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="*" element={<ErrorPage />} />
         </Routes>
