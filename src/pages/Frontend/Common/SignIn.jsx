@@ -17,6 +17,8 @@ import GoogleButton from "react-google-button";
 import * as yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../firebase-config";
 
 const SignIn = () => {
   const validationSchema = yup.object().shape({
@@ -44,7 +46,7 @@ const SignIn = () => {
 
     try {
       await Login(email, password);
-      navigate("/view-gigs");
+      // navigate("/view-gigs");
     } catch (error) {
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -67,9 +69,39 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (user != null) {
-      navigate("/view-gigs");
-    }
+    const fetchData = async () => {
+      if (user != null) {
+        const usersCollectionRef = collection(db, "users");
+        const filteredData = query(
+          usersCollectionRef,
+          where("user", "==", user?.uid)
+        );
+        try {
+          const querySnapshot = await getDocs(filteredData);
+          let userDetailsData = {};
+          querySnapshot.docs.forEach((doc) => {
+            userDetailsData = {
+              ...doc.data(),
+              id: doc.id,
+            };
+          });
+          if (userDetailsData.role === "Handyman") {
+            navigate("/view-buyer-requests");
+          } else {
+            navigate("/view-gigs");
+          }
+        } catch (error) {
+          // Handle any errors that occurred during fetching the data
+          console.error("Error fetching user details:", error);
+        }
+      }
+      // if (user != null) {
+      //   console.log("user?.user?.uid", user.uid);
+      //   navigate("/view-buyer-requests");
+      // }
+    };
+
+    fetchData();
   }, [user]);
 
   const ErrMsg = (errMsg) => {

@@ -12,7 +12,7 @@ import { auth, db } from "../firebase-config";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/UserDataSlice";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
 
 const userAuthContext = createContext();
 
@@ -57,15 +57,6 @@ export function UserAuthContextProvider({ children }) {
       };
       Cookies.set("token", token, tokenOptions);
 
-      const currentUserData = {
-        username: currentUser?.displayName,
-        userImage: currentUser?.photoURL,
-        userId: currentUser?.uid,
-        email: currentUser?.email,
-      };
-
-      dispatch(setUserData(currentUserData));
-
       if (currentUser?.displayName === null) {
         try {
           const filteredData = query(
@@ -85,6 +76,16 @@ export function UserAuthContextProvider({ children }) {
         } catch (error) {
           console.error("Error fetching user details:", error);
         }
+      } else {
+        const currentUserData = {
+          username: currentUser?.displayName,
+          userImage: currentUser?.photoURL,
+          userId: currentUser?.uid,
+          email: currentUser?.email,
+          role: currentUser?.displayName ? "Customer" : "Handyman",
+        };
+
+        dispatch(setUserData(currentUserData));
       }
     });
 
