@@ -363,6 +363,8 @@ export function App() {
           {/* Common*/}
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/profile" element={<ProfileMainPage />} />
+          <Route path="/profile-edit" element={<EditProfileMainPage />} />
 
           {/* Handyman */}
           <Route
