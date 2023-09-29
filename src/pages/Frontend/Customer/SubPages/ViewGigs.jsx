@@ -22,17 +22,18 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../redux/loadingSlice";
-
+import ViewGigModal from "../../../../components/common/viewGigModal";
 
 function ViewGigs() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedMenuItem, setSelectedMenuItem] = useState("Best Selling");
   const [gigs, setGigs] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [gigData, setGigData] = useState(null);
   const [documentCount, setDocumentCount] = useState(0);
   // const isLoading = useSelector((state) => state.setLoading.loading);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
