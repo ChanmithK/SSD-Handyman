@@ -25,26 +25,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../../../../firebase-config";
 import { useSelector } from "react-redux";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "60%",
-  height: "60%",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 3,
-};
+import ViewOrderDirectRequestModal from "../../../../components/common/viewOrderDirectRequestModal";
 
 function DirectRequests() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModal, setOpenModal] = useState(false);
   const [handymanOrderResponse, setHandymanOrderResponse] = useState([]);
   const userNew = useSelector((state) => state.setUserData.userData);
+  const [orderData, setOrderData] = useState();
 
   useEffect(() => {
     const getHandymanOrderResponse = async () => {
@@ -63,7 +50,6 @@ function DirectRequests() {
   }, [userNew]);
 
   console.log("handyman orders", handymanOrderResponse);
-
 
   return (
     <Box
@@ -216,7 +202,10 @@ function DirectRequests() {
                       fontSize: "12px",
                     }}
                     variant="outlined"
-                    onClick={handleOpen}
+                    onClick={() => {
+                      setOpenModal(true);
+                      setOrderData(row);
+                    }}
                   >
                     View Details
                   </Button>
@@ -226,94 +215,11 @@ function DirectRequests() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} position={"relative"}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography
-                sx={{
-                  fontSize: "17px",
-                  color: "#f96a20",
-                  fontWeight: "550",
-                }}
-              >
-                Craft an Impressive Offer to Secure This Job...
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Description"
-                variant="outlined"
-                fullWidth
-                multiline
-                maxRows={5}
-                rows={5}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Duration"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Offer"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 30,
-              right: "3.5%",
-            }}
-          >
-            <Button
-              sx={{
-                minWidth: 110,
-                color: "#062b56",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                mr: 2,
-              }}
-              variant="outlined"
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              sx={{
-                minWidth: 110,
-                color: "#ffffff",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                backgroundColor: "#062b56",
-                "&:hover": {
-                  backgroundColor: "#0a3e7c",
-                },
-              }}
-              variant="contained"
-              onClick={handleOpen}
-            >
-              Send Offer
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      <ViewOrderDirectRequestModal
+        requestData={orderData}
+        setOpenModal={setOpenModal}
+        open={openModal}
+      />
     </Box>
   );
 }
