@@ -36,7 +36,7 @@ Backend and DB - Firebase
 Style Component Library - Material UI
 
 Version Control - Github
-
+<br><br>
 ## Installation
 
 Follow these steps to set up HandyMan on your local machine:
