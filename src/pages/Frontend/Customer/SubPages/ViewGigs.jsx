@@ -5,10 +5,13 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  CircularProgress,
   Grid,
   IconButton,
   Menu,
   MenuItem,
+  Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -17,11 +20,17 @@ import StarIcon from "@mui/icons-material/Star";
 import { Gigs } from "../../../Data/GidData";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase-config";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../../../redux/loadingSlice";
 
 function ViewGigs() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedMenuItem, setSelectedMenuItem] = useState("Best Selling");
   const [gigs, setGigs] = useState([]);
+  const [documentCount, setDocumentCount] = useState(0);
+  // const isLoading = useSelector((state) => state.setLoading.loading);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -42,14 +51,43 @@ function ViewGigs() {
 
   useEffect(() => {
     const gigsCollectionRef = collection(db, "gigs");
+    setLoading(true);
     const getGigs = async () => {
-      const data = await getDocs(gigsCollectionRef);
-      setGigs(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const querySnapshot = await getDocs(gigsCollectionRef);
+      const documents = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setGigs(documents);
+      setDocumentCount(querySnapshot.size); // Set the document count
     };
-    getGigs();
-  }, []);
 
-  return (
+    getGigs().then(setLoading(false));
+  }, [loading]);
+
+  return loading ? (
+    <Box>
+      <Box
+        sx={{
+          borderRadius: "15px",
+          p: 5,
+          height: "100%",
+        }}
+      >
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          spacing={0}
+        >
+          <Skeleton width={"95%"} height={60} animation="wave" />
+          <Skeleton width={"95%"} height={120} animation="wave" />
+          <Skeleton width={"95%"} height={200} animation="wave" />
+          <Skeleton width={"95%"} height={300} animation="wave" />
+        </Stack>
+      </Box>
+    </Box>
+  ) : (
     <Box>
       <Grid container p={3}>
         <Grid
@@ -68,7 +106,7 @@ function ViewGigs() {
               fontWeight: "400",
             }}
           >
-            281,945 services available
+            {documentCount} services available
           </Typography>
 
           <Box
