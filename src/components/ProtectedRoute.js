@@ -1,17 +1,14 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../Context/UserAuthContext";
 import { auth } from "../firebase-config";
 import { getIdTokenResult, onAuthStateChanged } from "firebase/auth";
 import Cookies from "js-cookie";
 
-// const usersCollectionRef = collection(db, "users");
-
 const ProtectedRoute = ({ children }) => {
-  const dispatch = useDispatch();
-
   const { user, LogOut } = useUserAuth();
+  const userData = useSelector((state) => state.setUserData.userData);
 
   //Broken Authentication Flaws - Praveen
   onAuthStateChanged(auth, async (user) => {
@@ -40,10 +37,13 @@ const ProtectedRoute = ({ children }) => {
     }
   });
 
+  console.log("This is User Data", userData?.role);
+
   const token = Cookies.get("token");
   if (!user && !token) {
     return <Navigate to="/" replace />;
   }
+
   return children;
 };
 

@@ -12,21 +12,11 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import PhoneIcon from "@mui/icons-material/Phone";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
 import { db } from "../../../../firebase-config";
-import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -41,59 +31,68 @@ const style = {
   borderRadius: 3,
 };
 
-function SentOffers() {
+function DirectRequests() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [buyerRequests, setBuyerRequests] = useState([]);
-  const [requsetData, setRequsetData] = useState({});
-  const userNew = useSelector((state) => state.setUserData.userData);
+
+  const rows = [
+    {
+      date: "2023-09-28",
+      category: "Plumbing",
+      buyer: "John Doe",
+      request:
+        "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
+      duration: "2 hours",
+      budget: "$50",
+    },
+    {
+      date: "2023-09-27",
+      category: "Painting",
+      buyer: "Jane Smith",
+      request:
+        "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
+      duration: "1 day",
+      budget: "$200",
+    },
+    {
+      date: "2023-09-26",
+      category: "Electrical",
+      buyer: "Bob Johnson",
+      request:
+        "I need assistance with installing a ceiling fan in my bedroom. The room already has a junction box, and I have purchased the ceiling fan. Please let me know your availability and cost for installation.",
+      duration: "3 hours",
+      budget: "$75",
+    },
+    {
+      date: "2023-09-25",
+      category: "Locksmith",
+      buyer: "Alice Brown",
+      request:
+        "My front door has a broken lock mechanism, and I'm having trouble opening and closing it. I need a handyman to repair the lock and ensure the door operates smoothly. Please provide a cost estimate.",
+      duration: "4 hours",
+      budget: "$100",
+    },
+    {
+      date: "2023-09-24",
+      category: "Landscaping",
+      buyer: "Eve Wilson",
+      request:
+        "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
+      duration: "1 week",
+      budget: "$500",
+    },
+  ];
 
   useEffect(() => {
+    const buyerRequestsCollectionRef = collection(db, "buyerRequests");
     const getBuyerRequests = async () => {
-      const filterdData = query(
-        collection(db, "buyerRequestsSent"),
-        where("handyManId", "==", `${userNew?.id}`)
-      );
-      const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setBuyerRequests(offeredRequests);
+      const data = await getDocs(buyerRequestsCollectionRef);
+      setBuyerRequests(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getBuyerRequests();
   }, []);
-
-  //   const rows = [
-  //     {
-  //       date: "2023-09-28",
-  //       category: "Plumbing",
-  //       buyer: "John Doe",
-  //       request:
-  //         "I have a leaky faucet in my kitchen that needs immediate repair. The faucet has been leaking for a week now, and it's causing water damage to the sink area. Please provide an estimate for fixing it.",
-  //       status: 0,
-  //       budget: "$50",
-  //     },
-  //     {
-  //       date: "2023-09-27",
-  //       category: "Painting",
-  //       buyer: "Jane Smith",
-  //       request:
-  //         "I'm looking to repaint the walls of my living room. The room is approximately 300 square feet, and I'd like to use a light beige color. Please provide a quote for the job, including paint and labor costs.",
-  //       status: 1,
-  //       budget: "$200",
-  //     },
-  //     {
-  //       date: "2023-09-24",
-  //       category: "Landscaping",
-  //       buyer: "Eve Wilson",
-  //       request:
-  //         "I'm interested in landscaping and gardening services for my backyard. The area is approximately 500 square feet, and I'd like to have a mix of flowers and shrubs planted. Please provide an estimate for the project.",
-  //       status: 2,
-  //       budget: "$500",
-  //     },
-  //   ];
 
   return (
     <Box
@@ -154,7 +153,7 @@ function SentOffers() {
                 }}
                 align="left"
               >
-                BUDGET
+                DURATION
               </TableCell>
               <TableCell
                 sx={{
@@ -164,7 +163,7 @@ function SentOffers() {
                 }}
                 align="left"
               >
-                STATUS
+                BUDGET
               </TableCell>
               <TableCell
                 sx={{
@@ -179,13 +178,13 @@ function SentOffers() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {buyerRequests.map((row) => (
+            {buyerRequests?.map((row) => (
               <TableRow
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.brDate}
+                  {row.date}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -195,7 +194,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.brBuyer}
+                  {row.buyer}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -205,7 +204,7 @@ function SentOffers() {
                   }}
                   align="let"
                 >
-                  {row.brCategory}
+                  {row.category}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -215,7 +214,7 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.brRequest}
+                  {row.request}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -225,7 +224,7 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.brBudget}
+                  {row.duration}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -235,69 +234,20 @@ function SentOffers() {
                   }}
                   align="left"
                 >
-                  {row.status === 1 ? (
-                    <Tooltip title="Approved">
-                      <img
-                        src={"https://img.icons8.com/color/48/ok--v1.png"}
-                        alt=""
-                        style={{
-                          width: "44%",
-                          height: "44%",
-                          // objectFit: "cover",
-                        }}
-                      />
-                    </Tooltip>
-                  ) : row.status === 0 ? (
-                    <Tooltip title="Rejected">
-                      <img
-                        src={
-                          "https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/48/FA5252/external-rejected-approved-and-rejected-tanah-basah-glyph-tanah-basah-16.png"
-                        }
-                        alt=""
-                        style={{
-                          width: "41%",
-                          height: "41%",
-                          // objectFit: "cover",
-                        }}
-                      />
-                    </Tooltip>
-                  ) : (
-                    <Tooltip title="Pending">
-                      <img
-                        src={
-                          "https://img.icons8.com/ios-filled/50/FAB005/clock--v1.png"
-                        }
-                        alt=""
-                        style={{
-                          width: "41%",
-                          height: "41%",
-                          // objectFit: "cover",
-                        }}
-                      />
-                    </Tooltip>
-                  )}
+                  Rs.{row.budget}
                 </TableCell>
-
                 <TableCell align="right">
                   <Button
                     sx={{
                       minWidth: 110,
-                      color: "#f96a20",
-                      borderColor: "#f96a20",
+                      color: "#062b56",
+                      borderColor: "#062b56",
                       fontSize: "12px",
                     }}
                     variant="outlined"
-                    onClick={() => {
-                      const getBlogs = async () => {
-                        const data = doc(db, "buyerRequestsSent", row.id);
-                        const docSnap = await getDoc(data);
-                        setRequsetData(docSnap.data());
-                      };
-
-                      getBlogs().then(handleOpen);
-                    }}
+                    onClick={handleOpen}
                   >
-                    View Offer
+                    Send Offer
                   </Button>
                 </TableCell>
               </TableRow>
@@ -317,12 +267,12 @@ function SentOffers() {
             <Grid item xs={12}>
               <Typography
                 sx={{
-                  fontSize: "19px",
+                  fontSize: "17px",
                   color: "#f96a20",
                   fontWeight: "550",
                 }}
               >
-                Order Details
+                Craft an Impressive Offer to Secure This Job...
               </Typography>
             </Grid>
 
@@ -335,10 +285,6 @@ function SentOffers() {
                 multiline
                 maxRows={5}
                 rows={5}
-                value={requsetData?.description}
-                aria-readonlyInputProps={{
-                  readOnly: true,
-                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -347,10 +293,6 @@ function SentOffers() {
                 label="Duration"
                 variant="outlined"
                 fullWidth
-                value={requsetData?.duration}
-                InputProps={{
-                  readOnly: true,
-                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -359,10 +301,6 @@ function SentOffers() {
                 label="Offer"
                 variant="outlined"
                 fullWidth
-                value={requsetData?.offer}
-                InputProps={{
-                  readOnly: true,
-                }}
               />
             </Grid>
           </Grid>
@@ -399,9 +337,8 @@ function SentOffers() {
               }}
               variant="contained"
               onClick={handleOpen}
-              startIcon={<PhoneIcon />}
             >
-              Contact Customer
+              Send Offer
             </Button>
           </Box>
         </Box>
@@ -410,4 +347,4 @@ function SentOffers() {
   );
 }
 
-export default SentOffers;
+export default DirectRequests;

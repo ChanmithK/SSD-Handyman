@@ -57,6 +57,14 @@ import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPa
 import ProfileMainPage from "./pages/Frontend/Common/ProfileMainPage";
 import EditProfileMainPage from "./pages/Frontend/Common/EditProfileMainPage";
 
+//vishara
+import HandymanGigsPage from "./pages/Frontend/Handyman/HandymanGigsPage";
+import HandymanDirReqPage from "./pages/Frontend/Handyman/HandymanDirReqPage";
+import CustomerBuyerRequests from "./pages/Frontend/Customer/CustomerBuyerRequests";
+import HandymanResponsePage from "./pages/Frontend/Customer/HandymanResponsePage";
+import HandymanProtectedRoute from "./components/HandymanProtectedRoute";
+import CustomerProtectedRoutes from "./components/CustomerProtectedRoutes";
+
 export function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -84,6 +92,14 @@ export function App() {
       dispatch(setTileName("Buyer Requests"));
     } else if (location.pathname === "/profile") {
       dispatch(setTileName("Profile"));
+    } else if (location.pathname === "/handyman-gigs") {
+      dispatch(setTileName("Handyman Gigs"));
+    } else if (location.pathname === "/handyman-direct-requests") {
+      dispatch(setTileName("Handyman Direct Requests"));
+    } else if (location.pathname === "/customer-requests") {
+      dispatch(setTileName("Customer Requests and Response"));
+    } else if (location.pathname === "/handyman-responses") {
+      dispatch(setTileName("Handyman Responses"));
     }
   }, [location.pathname]);
 
@@ -350,32 +366,45 @@ export function App() {
 
           {/* Handyman */}
           <Route
-            path="/create-gig"
-            element={
-              <ProtectedRoute>
-                <CreateGigMainPage />
-              </ProtectedRoute>
-            }
-          />
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route path="/create-gig" element={<CreateGigMainPage />} />
+          </Route>
 
           <Route
-            path="/view-buyer-requests"
-            element={
-              <ProtectedRoute>
-                <BuyerRequestsMainPage />
-              </ProtectedRoute>
-            }
-          />
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route
+              path="/view-buyer-requests"
+              element={<BuyerRequestsMainPage />}
+            />
+          </Route>
+
+          <Route
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route path="/handyman-gigs" element={<HandymanGigsPage />} />
+          </Route>
+
+          <Route
+            element={<HandymanProtectedRoute allowedRoles={["Handyman"]} />}
+          >
+            <Route
+              path="/handyman-direct-requests"
+              element={<HandymanDirReqPage />}
+            />
+          </Route>
 
           {/* Customer */}
           <Route
-            path="/client-home"
-            element={
-              <ProtectedRoute>
-                <MakeOrder />
-              </ProtectedRoute>
-            }
-          />
+            element={<CustomerProtectedRoutes allowedRoles={["Customer"]} />}
+          >
+            <Route
+              path="/handyman-responses"
+              element={<HandymanResponsePage />}
+            />
+          </Route>
+
           <Route
             path="/make-order"
             element={
@@ -390,24 +419,6 @@ export function App() {
             element={
               <ProtectedRoute>
                 <ViewGigMainPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfileMainPage />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/profile-edit"
-            element={
-              <ProtectedRoute>
-                <EditProfileMainPage />
               </ProtectedRoute>
             }
           />
