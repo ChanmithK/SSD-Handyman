@@ -73,7 +73,7 @@ export default function BRTabPannl() {
 
               backgroundColor: value === 0 ? "#E4F2FF" : "inherit",
             }}
-            label="Buyer Requests"
+            label="Order Requests"
             {...a11yProps(0)}
           />
           <Tab
@@ -85,7 +85,7 @@ export default function BRTabPannl() {
 
               backgroundColor: value === 1 ? "#E4F2FF" : "inherit",
             }}
-            label="Sent Offers"
+            label="Responses"
             {...a11yProps(1)}
           />
         </Tabs>
