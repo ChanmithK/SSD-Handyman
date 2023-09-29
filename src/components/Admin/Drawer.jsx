@@ -32,7 +32,7 @@ export default function TemporaryDrawer() {
       await LogOut();
       logOutNavigate("/signin");
     } catch (error) {
-      console.log(error.message);
+      console.log("Cannot Sign Out");
     }
   };
   return (

@@ -14,9 +14,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../../firebase-config";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useSelector } from "react-redux";
+import * as yup from "yup";
 
 const style = {
   position: "absolute",
@@ -24,7 +28,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "60%",
-  height: "60%",
+  height: "66%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
@@ -36,6 +40,7 @@ function BuyerRequests() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [buyerRequests, setBuyerRequests] = useState([]);
+  const userNew = useSelector((state) => state.setUserData.userData);
 
   const rows = [
     {
@@ -85,14 +90,91 @@ function BuyerRequests() {
     },
   ];
 
+  const validationSchema = yup.object().shape({
+    description: yup
+      .string()
+      .matches(/^[\w\.\s]+$/, "Description must contain only words")
+      .required("Description is required"),
+    duration: yup
+      .string()
+      .matches(/\d+\.?\d*/, "Duration must contain only numbers")
+      .required("Completion Time is required"),
+    offer: yup
+      .string()
+      .matches(/\d+\.?\d*/, "Price must contain only numbers")
+      .required("Price is required"),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmitHandler = async (data) => {
+    sendBuyerRequest(data);
+    reset();
+    handleClose();
+  };
+
+  const sendBuyerRequest = async (data) => {
+    const buyerRequestsCollectionRef = collection(db, "buyerRequestsSent");
+
+    const { description, duration, offer } = data;
+
+    try {
+      await addDoc(buyerRequestsCollectionRef, {
+        description,
+        duration,
+        offer,
+        handyManId: userNew ? userNew.id : null,
+        buyerRequestsId: buyerRequests[0].id,
+        status: "2",
+        brDuration: buyerRequests[0].duration,
+        brBudget: parseInt(buyerRequests[0].budget),
+        brCategory: buyerRequests[0].category,
+        brBuyer: buyerRequests[0].buyer,
+        brDate: buyerRequests[0].date,
+        brRequest: buyerRequests[0].request,
+      });
+    } catch (error) {
+      console.log("Error adding document");
+    }
+  };
+
   useEffect(() => {
     const buyerRequestsCollectionRef = collection(db, "buyerRequests");
     const getBuyerRequests = async () => {
       const data = await getDocs(buyerRequestsCollectionRef);
-      setBuyerRequests(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      const buyerRequestsData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+
+      if (userNew?.id) {
+        for (const buyerRequest of buyerRequestsData) {
+          const buyerRequestsSentQuery = query(
+            collection(db, "buyerRequestsSent"),
+            where("handyManId", "==", userNew.id),
+            where("buyerRequestId", "==", buyerRequest.id)
+          );
+
+          const buyerRequestsSentSnapshot = await getDocs(
+            buyerRequestsSentQuery
+          );
+          if (buyerRequestsSentSnapshot.size > 0) {
+            buyerRequest.isSendOfferDisabled = true;
+          }
+        }
+      }
+
+      setBuyerRequests(buyerRequestsData);
     };
     getBuyerRequests();
-  }, []);
+  }, [userNew?.id]);
 
   return (
     <Box
@@ -238,6 +320,7 @@ function BuyerRequests() {
                 </TableCell>
                 <TableCell align="right">
                   <Button
+                    disabled={row.isSendOfferDisabled}
                     sx={{
                       minWidth: 110,
                       color: "#062b56",
@@ -263,84 +346,95 @@ function BuyerRequests() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} position={"relative"}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography
-                sx={{
-                  fontSize: "17px",
-                  color: "#f96a20",
-                  fontWeight: "550",
-                }}
-              >
-                Craft an Impressive Offer to Secure This Job...
-              </Typography>
-            </Grid>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography
+                  sx={{
+                    fontSize: "17px",
+                    color: "#f96a20",
+                    fontWeight: "550",
+                  }}
+                >
+                  Craft an Impressive Offer to Secure This Job...
+                </Typography>
+              </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Description"
-                variant="outlined"
-                fullWidth
-                multiline
-                maxRows={5}
-                rows={5}
-              />
+              <Grid item xs={12}>
+                <TextField
+                  id="description"
+                  label="Description of the Offered Services"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  maxRows={5}
+                  rows={5}
+                  {...register("description")}
+                  error={Boolean(errors.description)}
+                  helperText={errors.description?.message}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="duration"
+                  label="Duration"
+                  variant="outlined"
+                  fullWidth
+                  {...register("duration")}
+                  error={Boolean(errors.duration)}
+                  helperText={errors.duration?.message}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="offer"
+                  label="Offer"
+                  variant="outlined"
+                  fullWidth
+                  {...register("offer")}
+                  error={Boolean(errors.offer)}
+                  helperText={errors.offer?.message}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Duration"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Offer"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 30,
-              right: "3.5%",
-            }}
-          >
-            <Button
+            <Box
               sx={{
-                minWidth: 110,
-                color: "#062b56",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                mr: 2,
+                position: "absolute",
+                bottom: 30,
+                right: "3.5%",
               }}
-              variant="outlined"
-              onClick={handleClose}
             >
-              Cancel
-            </Button>
-            <Button
-              sx={{
-                minWidth: 110,
-                color: "#ffffff",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                backgroundColor: "#062b56",
-                "&:hover": {
-                  backgroundColor: "#0a3e7c",
-                },
-              }}
-              variant="contained"
-              onClick={handleOpen}
-            >
-              Send Offer
-            </Button>
-          </Box>
+              <Button
+                sx={{
+                  minWidth: 110,
+                  color: "#062b56",
+                  borderColor: "#062b56",
+                  fontSize: "12px",
+                  mr: 2,
+                }}
+                variant="outlined"
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                sx={{
+                  minWidth: 110,
+                  color: "#ffffff",
+                  borderColor: "#062b56",
+                  fontSize: "12px",
+                  backgroundColor: "#062b56",
+                  "&:hover": {
+                    backgroundColor: "#0a3e7c",
+                  },
+                }}
+                variant="contained"
+                type="submit"
+              >
+                Send Offer
+              </Button>
+            </Box>
+          </form>
         </Box>
       </Modal>
     </Box>

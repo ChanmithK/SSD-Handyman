@@ -94,7 +94,7 @@ export default function MenuAppBar() {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={() => {
-              navigate("/client-profile");
+              navigate("/profile");
             }}
             color="#62646a"
           >

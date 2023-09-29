@@ -64,7 +64,7 @@ const SignIn = () => {
     try {
       await googleSignIn();
     } catch (error) {
-      console.log(error);
+      console.log("Error signing in with Google");
     }
   };
 
@@ -95,10 +95,6 @@ const SignIn = () => {
           console.error("Error fetching user details:", error);
         }
       }
-      // if (user != null) {
-      //   console.log("user?.user?.uid", user.uid);
-      //   navigate("/view-buyer-requests");
-      // }
     };
 
     fetchData();
