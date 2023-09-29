@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -17,11 +18,11 @@ import {
 import React, { useEffect, useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import StarIcon from "@mui/icons-material/Star";
-import { Gigs } from "../../../Data/GidData";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../redux/loadingSlice";
+
 
 function ViewGigs() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,6 +32,7 @@ function ViewGigs() {
   // const isLoading = useSelector((state) => state.setLoading.loading);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -182,139 +184,151 @@ function ViewGigs() {
                   backgroundColor: "transparent",
                 }}
               >
-                <CardMedia
-                  sx={{ height: 205, borderRadius: 2 }}
-                  image={gig.image}
-                  title=""
-                />
-                <CardContent
-                  sx={{
-                    p: 0,
-                    pt: 1,
+                <CardActionArea
+                  onClick={() => {
+                    setOpenModal(true);
+                    setGigData(gig);
                   }}
                 >
-                  <Grid container>
-                    <Grid
-                      item
-                      xs={12}
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Box
+                  <CardMedia
+                    sx={{ height: 205, borderRadius: 2 }}
+                    image={gig.image}
+                    title=""
+                  />
+                  <CardContent
+                    sx={{
+                      p: 0,
+                      pt: 1,
+                    }}
+                  >
+                    <Grid container>
+                      <Grid
+                        item
+                        xs={12}
                         sx={{
                           display: "flex",
+                          justifyContent: "space-between",
                           alignItems: "center",
-                          gap: 1,
                         }}
                       >
                         <Box
                           sx={{
-                            height: "29px",
-                            width: "29px",
-                            borderRadius: "50%",
-                            overflow: "hidden",
                             display: "flex",
+                            alignItems: "center",
+                            gap: 1,
                           }}
                         >
-                          <img
-                            src={gig.profileImage}
-                            alt=""
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
+                          <Box
+                            sx={{
+                              height: "29px",
+                              width: "29px",
+                              borderRadius: "50%",
+                              overflow: "hidden",
+                              display: "flex",
+                            }}
+                          >
+                            <img
+                              src={gig.profileImage}
+                              alt=""
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </Box>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "700",
+                              color: "#222325",
+                            }}
+                          >
+                            {gig.name}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              color: "#404145",
+                            }}
+                          >
+                            {gig.level}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item container xs={12} mt={1.5}>
+                        <Typography
+                          sx={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            color: "#404145",
+                            minHeight: 48,
+                          }}
+                        >
+                          {gig.title}
+                        </Typography>
+                      </Grid>
+                      <Grid item container xs={12} mt={1.5}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <StarIcon
+                            sx={{
+                              fontSize: 19,
+                              color: "#222325",
+                              mt: -0.3,
                             }}
                           />
+                          <Typography
+                            sx={{
+                              fontSize: "16px",
+                              fontWeight: "700",
+                              color: "#222325",
+                              display: "flex",
+                              alignItems: "center",
+                              ml: 0.4,
+                            }}
+                          >
+                            {gig.rating}
+                            <Typography
+                              sx={{
+                                fontSize: "16px",
+                                fontWeight: "400",
+                                color: "#74767e",
+                                display: "flex",
+                                ml: 0.5,
+                              }}
+                            >
+                              ({gig.numReviews})
+                            </Typography>
+                          </Typography>
                         </Box>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: "700",
-                            color: "#222325",
-                          }}
-                        >
-                          {gig.name}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: "600",
-                            color: "#404145",
-                          }}
-                        >
-                          {gig.level}
-                        </Typography>
-                      </Box>
-                    </Grid>
-                    <Grid item container xs={12} mt={1.5}>
-                      <Typography
-                        sx={{
-                          fontSize: "16px",
-                          fontWeight: "400",
-                          color: "#404145",
-                          minHeight: 48,
-                        }}
-                      >
-                        {gig.title}
-                      </Typography>
-                    </Grid>
-                    <Grid item container xs={12} mt={1.5}>
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <StarIcon
-                          sx={{
-                            fontSize: 19,
-                            color: "#222325",
-                            mt: -0.3,
-                          }}
-                        />
+                      </Grid>
+                      <Grid item xs={12} mt={0.8}>
                         <Typography
                           sx={{
                             fontSize: "16px",
                             fontWeight: "700",
                             color: "#222325",
-                            display: "flex",
-                            alignItems: "center",
-                            ml: 0.4,
                           }}
                         >
-                          {gig.rating}
-                          <Typography
-                            sx={{
-                              fontSize: "16px",
-                              fontWeight: "400",
-                              color: "#74767e",
-                              display: "flex",
-                              ml: 0.5,
-                            }}
-                          >
-                            ({gig.numReviews})
-                          </Typography>
+                          From Rs.{gig.price}
                         </Typography>
-                      </Box>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} mt={0.8}>
-                      <Typography
-                        sx={{
-                          fontSize: "16px",
-                          fontWeight: "700",
-                          color: "#222325",
-                        }}
-                      >
-                        From Rs.{gig.price}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
+                  </CardContent>
+                </CardActionArea>
               </Card>
             </Grid>
           ))}
         </Grid>
       </Grid>
+      <ViewGigModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        gigData={gigData}
+      />
     </Box>
   );
 }
