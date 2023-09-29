@@ -19,7 +19,7 @@ export default function ViewOrderRequestModal({
   setOpenModal,
   requestData,
 }) {
-  const userRole = useSelector((state) => state.setUserData.userData.role);
+  const userRole = useSelector((state) => state.setUserData?.userData?.role);
   return (
     <Modal
       open={open}
