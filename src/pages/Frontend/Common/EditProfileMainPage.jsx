@@ -2,9 +2,9 @@ import React from "react";
 import MenuAppBar from "../../../components/Handyman/layouts/Appbar";
 import MiniDrawer from "../../../components/Handyman/layouts/Drawer";
 import classes from "../Customer/CustomGrid.module.css";
-import Profile from "./SubPages/Profile";
+import EditProfile from "./SubPages/EditProfile";
 
-function ProfileMainPage() {
+const EditProfileMainPage = () => {
   return (
     <div>
       <div className={classes.row}>
@@ -20,11 +20,11 @@ function ProfileMainPage() {
           className={`${classes["col"]} ${classes["col-11"]}`}
           style={{ paddingTop: 60 }}
         >
-          <Profile />
+          <EditProfile />
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default ProfileMainPage;
+export default EditProfileMainPage;

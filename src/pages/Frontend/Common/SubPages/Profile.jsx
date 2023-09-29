@@ -1,25 +1,14 @@
 import React, { useRef } from "react";
 import { Box, Grid } from "@mui/material";
-import { useState, useEffect, useCallback } from "react";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import { collection, getDoc, query, where, doc } from "@firebase/firestore";
-import { db, getDB } from "../../../firebase-config";
-import { getAuth } from "@firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { set } from "react-hook-form";
 
 const Profile = () => {
-  const Profile = useRef({});
-
   const navigate = useNavigate();
-
   const userNew = useSelector((state) => state.setUserData.userData);
-
-  console.log(userNew);
 
   return (
     <Box
@@ -61,8 +50,8 @@ const Profile = () => {
                 justifyContent: "center",
                 marginTop: "4rem",
                 marginBottom: "1rem",
-                background: userNew?.[0]?.profileImage
-                  ? `url("${userNew?.[0]?.profileImage}")no-repeat center/cover`
+                background: userNew?.profileImage
+                  ? `url("${userNew?.profileImage}")no-repeat center/cover`
                   : "#D9D9D9",
               }}
             ></Box>
@@ -93,22 +82,34 @@ const Profile = () => {
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
-                      id="name"
-                      label="Name"
-                      value={userNew?.[0]?.name}
+                      id="email"
+                      label="Email"
+                      value={userNew?.email}
                       InputLabelProps={{ shrink: true }}
                       InputProps={{
                         readOnly: true,
                       }}
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={8}>
                     <TextField
                       fullWidth
-                      id="email"
-                      label="Email"
-                      value={userNew?.[0]?.email}
+                      id="name"
+                      label="Name"
+                      value={userNew?.name}
                       InputLabelProps={{ shrink: true }}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      fullWidth
+                      id="Age"
+                      label="Age"
+                      InputLabelProps={{ shrink: true }}
+                      value={userNew?.age}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -120,7 +121,19 @@ const Profile = () => {
                       id="telephone"
                       label="Telephone"
                       InputLabelProps={{ shrink: true }}
-                      value={userNew?.[0]?.mobile}
+                      value={userNew?.mobile}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      id="city"
+                      label="City"
+                      value={userNew?.city}
+                      InputLabelProps={{ shrink: true }}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -130,9 +143,17 @@ const Profile = () => {
                 <Button
                   type="submit"
                   fullWidth
-                  variant="contained"
-                  sx={{ mt: 6, mb: 2 }}
-                  onClick={() => navigate("/client-profile-update")}
+                  sx={{
+                    mt: 6,
+                    mb: 2,
+                    backgroundColor: "#062b56",
+                    color: "#fff",
+                    "&:hover": {
+                      backgroundColor: "#000000",
+                      color: "#fff",
+                    },
+                  }}
+                  onClick={() => navigate("/profile-edit")}
                 >
                   Edit
                 </Button>

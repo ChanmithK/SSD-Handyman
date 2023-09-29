@@ -73,10 +73,14 @@ export function UserAuthContextProvider({ children }) {
             where("user", "==", currentUser.uid)
           );
           const querySnapshot = await getDocs(filteredData);
-          const userDetailsData = querySnapshot.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }));
+          let userDetailsData = {};
+          querySnapshot.docs.forEach((doc) => {
+            userDetailsData = {
+              ...doc.data(),
+              id: doc.id,
+            };
+          });
+
           dispatch(setUserData(userDetailsData));
         } catch (error) {
           console.error("Error fetching user details:", error);

@@ -55,6 +55,7 @@ import CreateGigMainPage from "./pages/Frontend/Handyman/CreateGigMainPage";
 import ViewGigOrdersMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 import BuyerRequestsMainPage from "./pages/Frontend/Handyman/BuyerRequestsMainPage";
 import ProfileMainPage from "./pages/Frontend/Common/ProfileMainPage";
+import EditProfileMainPage from "./pages/Frontend/Common/EditProfileMainPage";
 
 export function App() {
   const dispatch = useDispatch();
@@ -398,6 +399,15 @@ export function App() {
             element={
               <ProtectedRoute>
                 <ProfileMainPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile-edit"
+            element={
+              <ProtectedRoute>
+                <EditProfileMainPage />
               </ProtectedRoute>
             }
           />
