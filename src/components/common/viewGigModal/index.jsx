@@ -112,7 +112,7 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                       color: "#222325",
                     }}
                   >
-                    {Gigs[0].name}
+                    {gigData?.name}
                   </Typography>
                 </Box>
                 <Box>
@@ -187,6 +187,19 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
             <Button
               sx={{
                 minWidth: 110,
+                color: "#062b56",
+                borderColor: "#062b56",
+                fontSize: "12px",
+                mr: 2,
+              }}
+              variant="outlined"
+              onClick={() => setOpenModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                minWidth: 110,
                 color: "#ffffff",
                 borderColor: "#062b56",
                 fontSize: "12px",
@@ -196,7 +209,7 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                 },
               }}
               variant="contained"
-              // onClick={handleOpen}
+              // onClick={}
             >
               Send Request
             </Button>
