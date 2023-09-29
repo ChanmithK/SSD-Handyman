@@ -7,6 +7,7 @@ import { Gigs } from "../../../pages/Data/GidData";
 import { Grid, TextField } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import SendRequestModel from "../sendRequestModal";
+import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -21,6 +22,7 @@ const style = {
 };
 
 export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
+  const userNew = useSelector((state) => state.setUserData.userData);
   const [open, setOpen] = React.useState(false);
   return (
     <div>
@@ -41,32 +43,61 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                   flexDirection: "row",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
+                {userNew?.role === "Customer" ? (
                   <Box
                     sx={{
-                      height: "42px",
-                      width: "42px",
-                      borderRadius: "50%",
-                      overflow: "hidden",
                       display: "flex",
+                      alignItems: "center",
+                      gap: 1,
                     }}
                   >
-                    <img
-                      src={gigData?.profileImage}
-                      alt=""
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
+                    <Box
+                      sx={{
+                        height: "42px",
+                        width: "42px",
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        display: "flex",
                       }}
-                    />
+                    >
+                      <img
+                        src={gigData?.profileImage}
+                        alt=""
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "700",
+                          color: "#222325",
+                        }}
+                      >
+                        {gigData?.name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: "700",
+                          color: "#222325",
+                        }}
+                      >
+                        {gigData?.level}
+                      </Typography>
+                    </Box>
                   </Box>
+                ) : (
                   <Box
                     sx={{
                       display: "flex",
@@ -81,19 +112,10 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                         color: "#222325",
                       }}
                     >
-                      {gigData?.name}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: "14px",
-                        fontWeight: "700",
-                        color: "#222325",
-                      }}
-                    >
-                      {gigData?.level}
+                      {gigData?.taskTime} Task
                     </Typography>
                   </Box>
-                </Box>
+                )}
                 <Box
                   sx={{
                     border: "1px solid #062b56",
@@ -127,48 +149,50 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                     borderRadius: "4px",
                   }}
                 />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    backgroundColor: "rgba(255, 255, 255, 0.7)",
-                    padding: "5px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <StarIcon
+                {userNew?.role === "Customer" && (
+                  <Box
                     sx={{
-                      fontSize: 19,
-                      color: "#222325",
-                      mt: -0.3,
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      fontSize: "16px",
-                      fontWeight: "700",
-                      color: "#222325",
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      backgroundColor: "rgba(255, 255, 255, 0.7)",
+                      padding: "5px",
                       display: "flex",
                       alignItems: "center",
-                      ml: 0.4,
                     }}
                   >
-                    {gigData?.rating}
+                    <StarIcon
+                      sx={{
+                        fontSize: 19,
+                        color: "#222325",
+                        mt: -0.3,
+                      }}
+                    />
                     <Typography
                       sx={{
                         fontSize: "16px",
-                        fontWeight: "400",
-                        color: "#74767e",
+                        fontWeight: "700",
+                        color: "#222325",
                         display: "flex",
-                        ml: 0.5,
+                        alignItems: "center",
+                        ml: 0.4,
                       }}
                     >
-                      ({gigData?.numReviews})
+                      {gigData?.rating}
+                      <Typography
+                        sx={{
+                          fontSize: "16px",
+                          fontWeight: "400",
+                          color: "#74767e",
+                          display: "flex",
+                          ml: 0.5,
+                        }}
+                      >
+                        ({gigData?.numReviews})
+                      </Typography>
                     </Typography>
-                  </Typography>
-                </Box>
+                  </Box>
+                )}
               </Box>
             </Grid>
 
@@ -193,7 +217,9 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                 multiline
                 rows={5}
                 fullWidth
-                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -217,25 +243,44 @@ export default function ViewGigModal({ openModal, setOpenModal, gigData }) {
                 >
                   Cancel
                 </Button>
-                <Button
-                  sx={{
-                    minWidth: 110,
-                    color: "#ffffff",
-                    borderColor: "#062b56",
-                    fontSize: "12px",
-                    backgroundColor: "#062b56",
-                    "&:hover": {
-                      backgroundColor: "#0a3e7c",
-                    },
-                  }}
-                  variant="contained"
-                  onClick={() => {
-                    setOpen(true);
-                    setOpenModal(false);
-                  }}
-                >
-                  Send Request
-                </Button>
+                {userNew?.role === "Customer" ? (
+                  <Button
+                    sx={{
+                      minWidth: 110,
+                      color: "#ffffff",
+                      borderColor: "#062b56",
+                      fontSize: "12px",
+                      backgroundColor: "#062b56",
+                      "&:hover": {
+                        backgroundColor: "#0a3e7c",
+                      },
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      setOpen(true);
+                      setOpenModal(false);
+                    }}
+                  >
+                    Send Request
+                  </Button>
+                ) : (
+                  <Button
+                    sx={{
+                      minWidth: 110,
+                      color: "#ffffff",
+                      borderColor: "#062b56",
+                      fontSize: "12px",
+                      backgroundColor: "#062b56",
+                      "&:hover": {
+                        backgroundColor: "#0a3e7c",
+                      },
+                    }}
+                    variant="contained"
+                    onClick={() => {}}
+                  >
+                    Edit
+                  </Button>
+                )}
               </Box>
             </Grid>
           </Grid>
