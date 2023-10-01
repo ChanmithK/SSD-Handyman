@@ -152,6 +152,7 @@ function BuyerRequests() {
         brBuyer: buyerRequests[0].buyer,
         brDate: buyerRequests[0].date,
         brRequest: buyerRequests[0].request,
+        customerId: buyerRequests[0].customerId,
       });
     } catch (error) {
       console.log("Error adding document");

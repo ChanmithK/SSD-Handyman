@@ -211,8 +211,8 @@ function SentOffers() {
                         src={"https://img.icons8.com/color/48/ok--v1.png"}
                         alt=""
                         style={{
-                          width: "44%",
-                          height: "44%",
+                          width: "16%",
+                          height: "16%",
                           // objectFit: "cover",
                         }}
                       />
@@ -225,8 +225,8 @@ function SentOffers() {
                         }
                         alt=""
                         style={{
-                          width: "41%",
-                          height: "41%",
+                          width: "16%",
+                          height: "16%",
                           // objectFit: "cover",
                         }}
                       />
@@ -239,8 +239,8 @@ function SentOffers() {
                         }
                         alt=""
                         style={{
-                          width: "41%",
-                          height: "41%",
+                          width: "16%",
+                          height: "16%",
                           // objectFit: "cover",
                         }}
                       />

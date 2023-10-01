@@ -41,7 +41,7 @@ function HandymanGigs() {
     const getHandymanGigs = async () => {
       const filterdData = query(
         collection(db, "gigs"),
-        where("id", "==", `${userNew?.id}`)
+        where("userId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
       let offeredRequests = querySnapshot.docs.map((doc) => ({
@@ -61,7 +61,7 @@ function HandymanGigs() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-            <TableCell
+              <TableCell
                 sx={{
                   fontSize: "14px",
                   color: "#74767e",
@@ -148,7 +148,7 @@ function HandymanGigs() {
                   }}
                   align="let"
                 >
-                  {row.date}
+                  {row.publishedDate}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {row.title}
