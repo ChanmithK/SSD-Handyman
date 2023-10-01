@@ -144,6 +144,7 @@ function BuyerRequests() {
         duration,
         offer,
         handyManId: userNew ? userNew.id : null,
+        handyManName: userNew ? userNew.name : null,
         buyerRequestsId: buyerRequests[0].id,
         status: "2",
         brDuration: buyerRequests[0].duration,

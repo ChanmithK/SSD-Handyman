@@ -182,7 +182,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.requiredDate}
+                  {row?.requiredDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -192,7 +192,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.status === 1 ? (
+                  {row?.status === 1 ? (
                     <Tooltip title="Approved">
                       <img
                         src={"https://img.icons8.com/color/48/ok--v1.png"}
@@ -204,7 +204,7 @@ function HandymanResponses() {
                         }}
                       />
                     </Tooltip>
-                  ) : row.status === 0 ? (
+                  ) : row?.status === 0 ? (
                     <Tooltip title="Rejected">
                       <img
                         src={
