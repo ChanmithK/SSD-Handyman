@@ -19,6 +19,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -40,11 +41,21 @@ function DirectRequests() {
         where("handymanID", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setHandymanOrderResponse(offeredRequests);
+
+      onSnapshot(filterdData, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setHandymanOrderResponse(data);
+      });
+
+      // let offeredRequests = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setHandymanOrderResponse(offeredRequests);
     };
     getHandymanOrderResponse();
   }, [userNew]);

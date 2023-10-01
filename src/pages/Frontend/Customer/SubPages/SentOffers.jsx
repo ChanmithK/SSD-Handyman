@@ -19,6 +19,7 @@ import { collection,
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   where, } from "firebase/firestore";
   import React, { useEffect, useState } from "react";
@@ -57,11 +58,20 @@ function SentOffers() {
         where("customerID", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setBuyerResponses(offeredRequests);
+
+      onSnapshot(filterdData, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setBuyerResponses(data);
+      });
+
+      // let offeredRequests = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setBuyerResponses(offeredRequests);
     };
     getBuyerResponses();
   }, [userNew]);
