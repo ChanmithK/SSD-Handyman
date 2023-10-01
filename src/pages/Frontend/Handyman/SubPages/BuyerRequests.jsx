@@ -296,7 +296,7 @@ function BuyerRequests() {
                   }}
                   align="left"
                 >
-                  {row.request}
+                  {row.request.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{
