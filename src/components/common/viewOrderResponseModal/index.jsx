@@ -18,7 +18,6 @@ export default function ViewOrderResponseModal({
   setOpenModal,
   requestData,
 }) {
-  console.log(requestData.status);
   return (
     <Modal
       open={open}

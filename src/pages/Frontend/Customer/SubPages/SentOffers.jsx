@@ -55,7 +55,7 @@ function SentOffers() {
     const getBuyerResponses = async () => {
       const filterdData = query(
         collection(db, "buyerRequestsSent"),
-        where("customerID", "==", `${userNew?.id}`)
+        where("customerId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
       let offeredRequests = querySnapshot.docs.map((doc) => ({
