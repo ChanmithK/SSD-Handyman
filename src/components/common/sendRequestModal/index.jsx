@@ -6,6 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useSelector } from "react-redux";
 import { db, storage } from "../../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const style = {
   position: "absolute",
@@ -18,6 +20,7 @@ const style = {
   boxShadow: 24,
   p: 4,
   borderRadius: 3,
+  zIndex: -1,
 };
 
 export default function SendRequestModel({ open, setOpen, gigData }) {
@@ -51,7 +54,19 @@ export default function SendRequestModel({ open, setOpen, gigData }) {
   });
 
   const onSubmitHandler = async (data) => {
-    sendRequest(data);
+    setOpen(false);
+    confirmAlert({
+      message: "Are you sure to send this request ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            sendRequest(data);
+          },
+        },
+        { label: "No" },
+      ],
+    });
   };
 
   const sendRequest = async (data) => {
