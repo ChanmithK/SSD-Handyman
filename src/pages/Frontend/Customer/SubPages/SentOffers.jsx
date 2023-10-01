@@ -15,14 +15,16 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { collection,
+import {
+  collection,
   doc,
   getDoc,
   getDocs,
   query,
-  where, } from "firebase/firestore";
-  import React, { useEffect, useState } from "react";
-  import { db, auth } from "../../../../firebase-config";
+  where,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db, auth } from "../../../../firebase-config";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useSelector } from "react-redux";
 
@@ -43,7 +45,6 @@ function SentOffers() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
 
   const [buyerResponses, setBuyerResponses] = useState([]);
 
@@ -66,7 +67,7 @@ function SentOffers() {
     getBuyerResponses();
   }, [userNew]);
 
-  console.log("buyer response",buyerResponses);
+  console.log("buyer response", buyerResponses);
 
   return (
     <Box
@@ -74,7 +75,7 @@ function SentOffers() {
         mt: 0,
       }}
     >
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
