@@ -144,6 +144,7 @@ function BuyerRequests() {
         duration,
         offer,
         handyManId: userNew ? userNew.id : null,
+        handyManName: userNew ? userNew.name : null,
         buyerRequestsId: buyerRequests[0].id,
         status: "2",
         brDuration: buyerRequests[0].duration,
@@ -152,6 +153,7 @@ function BuyerRequests() {
         brBuyer: buyerRequests[0].buyer,
         brDate: buyerRequests[0].date,
         brRequest: buyerRequests[0].request,
+        customerId: buyerRequests[0].customerId,
       });
     } catch (error) {
       console.log("Error adding document");
@@ -331,7 +333,7 @@ function BuyerRequests() {
                 >
                   Rs.{row.budget}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Button
                     disabled={row.isSendOfferDisabled}
                     sx={{

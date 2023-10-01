@@ -68,7 +68,7 @@ function HandymanResponses() {
 
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -182,7 +182,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.requiredDate}
+                  {row?.requiredDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -192,7 +192,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.status === 1 ? (
+                  {row?.status === 1 ? (
                     <Tooltip title="Approved">
                       <img
                         src={"https://img.icons8.com/color/48/ok--v1.png"}
@@ -204,7 +204,7 @@ function HandymanResponses() {
                         }}
                       />
                     </Tooltip>
-                  ) : row.status === 0 ? (
+                  ) : row?.status === 0 ? (
                     <Tooltip title="Rejected">
                       <img
                         src={

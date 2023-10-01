@@ -55,7 +55,7 @@ function SentOffers() {
     const getBuyerResponses = async () => {
       const filterdData = query(
         collection(db, "buyerRequestsSent"),
-        where("customerID", "==", `${userNew?.id}`)
+        where("customerId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
       let offeredRequests = querySnapshot.docs.map((doc) => ({
@@ -75,7 +75,7 @@ function SentOffers() {
         mt: 0,
       }}
     >
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
