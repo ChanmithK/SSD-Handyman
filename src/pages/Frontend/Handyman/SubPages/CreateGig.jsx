@@ -136,7 +136,7 @@ const CreateGig = () => {
         alignItems: "flex-end",
         justifyContent: "flex-end",
         mb: 2,
-        mx: 2,
+        // mx: 2,
       }}
     >
       <ToastContainer />
@@ -148,7 +148,7 @@ const CreateGig = () => {
           fontSize: "15px",
           letterSpacing: "1.5px",
           fontFamily: "Inter",
-          minWidth: "200px",
+          minWidth: "150px",
           height: "40px",
           borderRadius: "5px",
           textTransform: "none",

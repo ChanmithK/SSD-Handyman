@@ -136,7 +136,7 @@ const CreateCustomerRequest = () => {
         alignItems: "flex-end",
         justifyContent: "flex-end",
         mb: 2,
-        mx: 2,
+        // mx: 2,
       }}
     >
       <ToastContainer />
@@ -148,7 +148,7 @@ const CreateCustomerRequest = () => {
           fontSize: "15px",
           letterSpacing: "1.5px",
           fontFamily: "Inter",
-          minWidth: "200px",
+          minWidth: "150px",
           height: "40px",
           borderRadius: "5px",
           textTransform: "none",
@@ -274,7 +274,7 @@ const CreateCustomerRequest = () => {
                   title={
                     <img
                       src={image ? URL.createObjectURL(image) : ""}
-                      alt="image"
+                      alt=""
                       style={{
                         width: "100%",
                         height: "100%",

@@ -21,7 +21,7 @@ function CustomerBuyerRequests() {
           className={`${classes["col"]} ${classes["col-11"]}`}
           style={{ paddingTop: 60 }}
         >
-          <CreateCustomerRequestMainPage />
+          {/* <CreateCustomerRequestMainPage /> */}
           <BRTabPannl />
         </div>
       </div>
