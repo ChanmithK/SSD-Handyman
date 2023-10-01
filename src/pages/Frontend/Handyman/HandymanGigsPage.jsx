@@ -21,7 +21,6 @@ function HandymanGigsPage() {
           className={`${classes["col"]} ${classes["col-11"]}`}
           style={{ paddingTop: 60 }}
         >
-          <CreateGig />
           <HandymanGigs />
         </div>
       </div>

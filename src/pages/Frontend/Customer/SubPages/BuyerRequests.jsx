@@ -26,6 +26,7 @@ import React, { useEffect, useState } from "react";
 import { db, auth } from "../../../../firebase-config";
 import { useSelector } from "react-redux";
 import ViewOrderRequestModal from "../../../../components/common/viewOrderRequestModal";
+import CreateCustomerRequest from "./CreateCustomerRequest";
 
 function BuyerRequests() {
   const [openModal, setOpenModal] = useState(false);
@@ -195,6 +196,7 @@ function BuyerRequests() {
           </TableBody>
         </Table>
       </TableContainer>
+      <CreateCustomerRequest />
       <ViewOrderRequestModal
         requestData={requsetData}
         open={openModal}

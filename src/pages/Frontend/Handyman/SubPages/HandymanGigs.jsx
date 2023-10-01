@@ -28,6 +28,7 @@ import { db, auth } from "../../../../firebase-config";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useSelector } from "react-redux";
 import ViewGigModal from "../../../../components/common/viewGigModal";
+import CreateGig from "./CreateGig";
 
 function HandymanGigs() {
   const [openModal, setOpenModal] = useState(false);
@@ -68,7 +69,7 @@ function HandymanGigs() {
                   minWidth: "140px",
                 }}
               >
-                TITLE
+                GIG TITLE
               </TableCell>
               <TableCell
                 sx={{
@@ -79,7 +80,7 @@ function HandymanGigs() {
                 }}
                 align="left"
               >
-                DESCRIPTION
+                GIG DESCRIPTION
               </TableCell>
               <TableCell
                 sx={{
@@ -89,7 +90,7 @@ function HandymanGigs() {
                 }}
                 align="left"
               >
-                IMAGE
+                GIG IMAGE
               </TableCell>
               <TableCell
                 sx={{
@@ -99,7 +100,7 @@ function HandymanGigs() {
                 }}
                 align="left"
               >
-                TASK TIME
+                GIG TASK TIME
               </TableCell>
               <TableCell
                 sx={{
@@ -109,7 +110,7 @@ function HandymanGigs() {
                 }}
                 align="left"
               >
-                PRICE
+                GIG PRICE
               </TableCell>
               <TableCell
                 sx={{
@@ -138,7 +139,7 @@ function HandymanGigs() {
                     color: "#404145",
                     fontWeight: "450",
                   }}
-                  align="let"
+                  align="left"
                 >
                   {row.description}
                 </TableCell>
@@ -152,8 +153,12 @@ function HandymanGigs() {
                 >
                   <img
                     src={row.image}
-                    alt="Image"
-                    style={{ width: "150px", height: "90px", borderRadius: "3px"}}
+                    alt=""
+                    style={{
+                      width: "150px",
+                      height: "90px",
+                      borderRadius: "8px",
+                    }}
                   />
                 </TableCell>
                 <TableCell
@@ -176,7 +181,7 @@ function HandymanGigs() {
                 >
                   Rs.{row.price}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Button
                     sx={{
                       minWidth: 110,
@@ -198,6 +203,7 @@ function HandymanGigs() {
           </TableBody>
         </Table>
       </TableContainer>
+      <CreateGig />
       <ViewGigModal
         openModal={openModal}
         setOpenModal={setOpenModal}

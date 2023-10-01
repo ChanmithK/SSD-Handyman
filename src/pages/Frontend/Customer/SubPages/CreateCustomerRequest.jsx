@@ -108,9 +108,8 @@ const CreateCustomerRequest = () => {
         flexDirection: "column",
         alignItems: "flex-end",
         justifyContent: "flex-end",
-        mb: -5,
-        mt: 1,
-        mx: 2,
+        mb: 2,
+        // mx: 2,
       }}
     >
       <ToastContainer />
@@ -122,7 +121,7 @@ const CreateCustomerRequest = () => {
           fontSize: "15px",
           letterSpacing: "1.5px",
           fontFamily: "Inter",
-          minWidth: "200px",
+          minWidth: "150px",
           height: "40px",
           borderRadius: "5px",
           textTransform: "none",

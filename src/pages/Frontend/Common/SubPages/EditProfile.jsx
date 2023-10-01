@@ -176,6 +176,7 @@ const EditProfile = () => {
                         ></Box>
 
                         <input
+                          accept="image/*"
                           type="file"
                           id="fileUpload"
                           onChange={handleImageChange}
