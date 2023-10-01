@@ -118,8 +118,7 @@ const CreateCustomerRequest = () => {
         sx={{
           color: "#ffffff",
           backgroundColor: "#062b56",
-          fontSize: "15px",
-          letterSpacing: "1.5px",
+          fontSize: "12px",
           fontFamily: "Inter",
           minWidth: "150px",
           height: "40px",
