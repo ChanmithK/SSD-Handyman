@@ -72,17 +72,6 @@ function DirectRequests() {
                   fontSize: "14px",
                   color: "#74767e",
                   fontWeight: "500",
-                  minWidth: "140px",
-                }}
-                align="left"
-              >
-                DESCRIPTION
-              </TableCell>
-              <TableCell
-                sx={{
-                  fontSize: "14px",
-                  color: "#74767e",
-                  fontWeight: "500",
                 }}
                 align="left"
               >
@@ -116,7 +105,7 @@ function DirectRequests() {
                 }}
                 align="left"
               >
-                MY NOTE
+                STATUS
               </TableCell>
               <TableCell
                 sx={{
@@ -138,16 +127,6 @@ function DirectRequests() {
               >
                 <TableCell component="th" scope="row">
                   {row.gigTitle}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontSize: "14px",
-                    color: "#404145",
-                    fontWeight: "450",
-                  }}
-                  align="let"
-                >
-                  {row.description.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -187,7 +166,37 @@ function DirectRequests() {
                   }}
                   align="left"
                 >
-                  {row.note.slice(0, 20)}
+                  {row?.status === 0 ? (
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        color: "red",
+                        fontWeight: "450",
+                      }}
+                    >
+                      You Rejected
+                    </Typography>
+                  ) : row?.status === 1 ? (
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        color: "green",
+                        fontWeight: "450",
+                      }}
+                    >
+                      You Accepted
+                    </Typography>
+                  ) : (
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        color: "#ff8c00",
+                        fontWeight: "450",
+                      }}
+                    >
+                      Pending Approval
+                    </Typography>
+                  )}
                 </TableCell>
                 <TableCell align="right">
                   <Button
