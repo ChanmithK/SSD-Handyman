@@ -7,6 +7,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { db, storage } from "../../../../firebase-config";
@@ -66,9 +67,16 @@ const CreateGig = () => {
   });
 
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleLoading = () => {
+    setLoading(true);
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => setOpen(false);
   const [image, setImage] = useState(null);
   const [ImageURL, setImageURL] = useState("");
@@ -109,6 +117,7 @@ const CreateGig = () => {
   };
 
   const createGig = async (values) => {
+    handleLoading();
     const { title, description, price, completionTime } = values;
     try {
       const imageRef = ref(storage, `gig-images/${image.name + Date.now()}`);
@@ -146,6 +155,7 @@ const CreateGig = () => {
 
       handleClose();
       reset();
+      setLoading(false);
     } catch (error) {
       console.log("Error adding document");
     }
@@ -346,7 +356,7 @@ const CreateGig = () => {
                   >
                     Cancel
                   </Button>
-                  <Button
+                  {/* <Button
                     sx={{
                       minWidth: 110,
                       color: "#ffffff",
@@ -358,7 +368,21 @@ const CreateGig = () => {
                     type="submit"
                   >
                     Create Gig
-                  </Button>
+                  </Button> */}
+
+                  <LoadingButton
+                    sx={{
+                      minWidth: 110,
+                      color: "#ffffff",
+                      backgroundColor: "#062b56",
+                      fontSize: "12px",
+                    }}
+                    variant="contained"
+                    type="submit"
+                    loading={loading}
+                  >
+                    Create Gig
+                  </LoadingButton>
                 </Box>
               </Grid>
             </Grid>

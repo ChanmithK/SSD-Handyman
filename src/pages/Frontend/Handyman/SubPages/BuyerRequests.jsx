@@ -164,6 +164,7 @@ function BuyerRequests() {
     const buyerRequestsCollectionRef = collection(db, "buyerRequests");
     const getBuyerRequests = async () => {
       const data = await getDocs(buyerRequestsCollectionRef);
+
       const buyerRequestsData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,

@@ -18,7 +18,7 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -41,12 +41,21 @@ function BuyerRequests() {
         collection(db, "buyerRequests"),
         where("customerId", "==", `${userNew?.id}`)
       );
-      const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setBuyerRequests(offeredRequests);
+
+      onSnapshot(filterdData, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setBuyerRequests(data);
+      });
+
+      // const querySnapshot = await getDocs(filterdData);
+      // let offeredRequests = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setBuyerRequests(offeredRequests);
     };
     getBuyerRequests();
   }, [userNew]);
