@@ -2,6 +2,8 @@ import { Modal, Box, Grid, Typography, TextField, Button } from "@mui/material";
 import { doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { db } from "../../../firebase-config";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const style = {
   position: "absolute",
@@ -251,7 +253,20 @@ export default function ViewOrderDirectRequestModal({
                 }}
                 variant="outlined"
                 onClick={() => {
-                  rejectOrder().then(handleCloseNote());
+                  setOpenModal(false);
+                  handleCloseNote();
+                  confirmAlert({
+                    message: "Are you sure to reject this request ?",
+                    buttons: [
+                      {
+                        label: "Yes",
+                        onClick: () => {
+                          rejectOrder().then(handleCloseNote());
+                        },
+                      },
+                      { label: "No" },
+                    ],
+                  });
                 }}
               >
                 Reject
@@ -265,7 +280,19 @@ export default function ViewOrderDirectRequestModal({
                 }}
                 variant="contained"
                 onClick={() => {
-                  acceptOrder().then(handleCloseNote());
+                  setOpenModal(false);
+                  confirmAlert({
+                    message: "Are you sure to accept this request ?",
+                    buttons: [
+                      {
+                        label: "Yes",
+                        onClick: () => {
+                          acceptOrder().then(handleCloseNote());
+                        },
+                      },
+                      { label: "No" },
+                    ],
+                  });
                 }}
               >
                 Accept

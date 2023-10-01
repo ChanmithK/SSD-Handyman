@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const style = {
   position: "absolute",
@@ -115,9 +117,20 @@ function BuyerRequests() {
   });
 
   const onSubmitHandler = async (data) => {
-    sendBuyerRequest(data);
-    reset();
     handleClose();
+    confirmAlert({
+      message: "Are you sure to send this offer ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            sendBuyerRequest(data);
+          },
+        },
+        { label: "No" },
+      ],
+    });
+    reset();
   };
 
   const sendBuyerRequest = async (data) => {
