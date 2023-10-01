@@ -60,8 +60,6 @@ function DirectRequests() {
     getHandymanOrderResponse();
   }, [userNew]);
 
-  console.log("handyman orders", handymanOrderResponse);
-
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
       <TableContainer component={Paper}>

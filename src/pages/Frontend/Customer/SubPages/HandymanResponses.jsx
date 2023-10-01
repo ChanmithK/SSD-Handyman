@@ -64,8 +64,6 @@ function HandymanResponses() {
     getHandymanOrderResponse();
   }, [userNew]);
 
-  console.log("handyman orders", handymanOrderResponse);
-
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
       <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>

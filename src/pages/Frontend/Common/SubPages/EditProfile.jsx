@@ -83,7 +83,7 @@ const EditProfile = () => {
               profileImage: downloadURL ? downloadURL : userNew?.profileImage,
             });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => console.log("Error uploading image"));
       }
 
       navigate("/");

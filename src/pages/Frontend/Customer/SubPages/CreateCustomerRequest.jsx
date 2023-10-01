@@ -111,7 +111,7 @@ const CreateCustomerRequest = () => {
       handleClose();
       reset();
     } catch (error) {
-      console.log("Error adding document", error);
+      console.log("Error adding document");
     }
   };
 

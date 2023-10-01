@@ -60,8 +60,6 @@ function BuyerRequests() {
     getBuyerRequests();
   }, [userNew]);
 
-  console.log("buyer Request", buyerRequests);
-
   return (
     <Box
       sx={{
