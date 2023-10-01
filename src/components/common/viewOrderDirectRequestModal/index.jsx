@@ -281,13 +281,14 @@ export default function ViewOrderDirectRequestModal({
                 variant="contained"
                 onClick={() => {
                   setOpenModal(false);
+                  handleCloseNote();
                   confirmAlert({
                     message: "Are you sure to accept this request ?",
                     buttons: [
                       {
                         label: "Yes",
                         onClick: () => {
-                          acceptOrder().then(handleCloseNote());
+                          acceptOrder();
                         },
                       },
                       { label: "No" },

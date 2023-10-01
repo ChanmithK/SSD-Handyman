@@ -53,7 +53,7 @@ function DirectRequests() {
 
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -136,7 +136,7 @@ function DirectRequests() {
                   }}
                   align="let"
                 >
-                  {row.cusID}
+                  {row.cusName}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -198,7 +198,7 @@ function DirectRequests() {
                     </Typography>
                   )}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Button
                     sx={{
                       minWidth: 110,
