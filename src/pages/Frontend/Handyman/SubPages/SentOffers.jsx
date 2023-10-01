@@ -248,7 +248,7 @@ function SentOffers() {
                   )}
                 </TableCell>
 
-                <TableCell align="right">
+                <TableCell align="center">
                   <Button
                     sx={{
                       minWidth: 110,
