@@ -147,7 +147,7 @@ function DirectRequests() {
                   }}
                   align="let"
                 >
-                  {row.description.slice(0, 20)}
+                  {row?.description?.slice(0, 20)}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -187,7 +187,7 @@ function DirectRequests() {
                   }}
                   align="left"
                 >
-                  {row.note.slice(0, 20)}
+                  {row?.note?.slice(0, 20)}
                 </TableCell>
                 <TableCell align="right">
                   <Button
