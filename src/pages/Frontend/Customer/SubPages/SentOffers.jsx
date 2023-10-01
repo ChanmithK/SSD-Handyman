@@ -22,12 +22,14 @@ import {
   getDocs,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db, auth } from "../../../../firebase-config";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useSelector } from "react-redux";
+import { confirmAlert } from "react-confirm-alert";
 
 const style = {
   position: "absolute",
@@ -35,22 +37,49 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "60%",
-  height: "60%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   borderRadius: 3,
+  maxHeight: "95vh",
+  overflowY: "scroll",
 };
 
 function SentOffers() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [openNote, setOpenNote] = useState(false);
+  const [note, setNote] = useState("");
 
   const [buyerResponses, setBuyerResponses] = useState([]);
-
   const [requsetData, setRequsetData] = useState({});
   const userNew = useSelector((state) => state.setUserData.userData);
+
+  const handleOpenNote = () => {
+    setOpenNote(true);
+  };
+  const handleCloseNote = () => {
+    setOpenNote(false);
+  };
+
+  const acceptOrder = async () => {
+    const addNote = doc(db, "buyerRequestsSent", requsetData?.id);
+    const newFields = {
+      note: note,
+      status: 1,
+    };
+    await updateDoc(addNote, newFields);
+  };
+
+  const rejectOrder = async () => {
+    const addNote = doc(db, "buyerRequestsSent", requsetData?.id);
+    const newFields = {
+      note: note,
+      status: 0,
+    };
+    await updateDoc(addNote, newFields);
+  };
 
   useEffect(() => {
     const getBuyerResponses = async () => {
@@ -311,7 +340,10 @@ function SentOffers() {
                       fontSize: "12px",
                     }}
                     variant="outlined"
-                    onClick={handleOpen}
+                    onClick={() => {
+                      setRequsetData(row);
+                      handleOpen();
+                    }}
                   >
                     View Offer
                   </Button>
@@ -345,8 +377,67 @@ function SentOffers() {
             <Grid item xs={12}>
               <TextField
                 id="filled-basic"
-                label="Description"
+                label="Category"
                 variant="outlined"
+                defaultValue={requsetData?.brCategory}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Handyman Name"
+                variant="outlined"
+                defaultValue={requsetData?.handyManId}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Offer"
+                variant="outlined"
+                defaultValue={requsetData?.offer}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Duration"
+                variant="outlined"
+                defaultValue={requsetData?.duration}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Status"
+                variant="outlined"
+                defaultValue={
+                  (requsetData?.status === 1 && "Approved") ||
+                  (requsetData?.status === 0 && "Rejected") ||
+                  (requsetData?.status === 2 && "Pending")
+                }
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Date"
+                variant="outlined"
+                defaultValue={requsetData?.brDate}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="filled-basic"
+                label="Response"
+                variant="outlined"
+                defaultValue={requsetData?.description}
                 fullWidth
                 multiline
                 maxRows={5}
@@ -356,25 +447,21 @@ function SentOffers() {
             <Grid item xs={12}>
               <TextField
                 id="filled-basic"
-                label="Duration"
+                label="Description"
                 variant="outlined"
+                defaultValue={requsetData?.brRequest}
                 fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Offer"
-                variant="outlined"
-                fullWidth
+                multiline
+                maxRows={5}
+                rows={5}
               />
             </Grid>
           </Grid>
           <Box
             sx={{
-              position: "absolute",
-              bottom: 30,
-              right: "3.5%",
+              display: "flex",
+              justifyContent: "flex-end",
+              mt: 2,
             }}
           >
             <Button
@@ -390,23 +477,115 @@ function SentOffers() {
             >
               Cancel
             </Button>
-            <Button
-              sx={{
-                minWidth: 110,
-                color: "#ffffff",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                backgroundColor: "#062b56",
-                "&:hover": {
-                  backgroundColor: "#0a3e7c",
-                },
-              }}
-              variant="contained"
-              onClick={handleOpen}
-              startIcon={<PhoneIcon />}
-            >
-              Contact Customer
-            </Button>
+            {requsetData?.status === 1 || requsetData?.status === 0 ? (
+              ""
+            ) : (
+              <Button
+                sx={{
+                  minWidth: 110,
+                  color: "#ffffff",
+                  borderColor: "#062b56",
+                  fontSize: "12px",
+                  backgroundColor: "#062b56",
+                  "&:hover": {
+                    backgroundColor: "#0a3e7c",
+                  },
+                }}
+                variant="contained"
+                onClick={() => {
+                  handleOpenNote();
+                }}
+              >
+                Continue
+              </Button>
+            )}
+          </Box>
+        </Box>
+      </Modal>
+      <Modal
+        open={openNote}
+        onClose={handleCloseNote}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box sx={{ ...style, width: 400 }}>
+          <TextField
+            id="filled-basic"
+            label="Note"
+            variant="outlined"
+            fullWidth
+            multiline
+            maxRows={5}
+            rows={5}
+            onChange={(e) => {
+              setNote(e.target.value);
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              gap: 1,
+              mt: 2,
+            }}
+          >
+            <>
+              <Button
+                sx={{
+                  minWidth: 110,
+                  color: "#062b56",
+                  borderColor: "#062b56",
+                  fontSize: "12px",
+                }}
+                variant="outlined"
+                onClick={() => {
+                  handleClose(false);
+                  handleCloseNote();
+                  confirmAlert({
+                    message: "Are you sure to reject this request ?",
+                    buttons: [
+                      {
+                        label: "Yes",
+                        onClick: () => {
+                          rejectOrder().then(handleCloseNote());
+                        },
+                      },
+                      { label: "No" },
+                    ],
+                  });
+                }}
+              >
+                Reject
+              </Button>
+              <Button
+                sx={{
+                  minWidth: 110,
+                  color: "white",
+                  backgroundColor: "#062b56",
+                  fontSize: "12px",
+                }}
+                variant="contained"
+                onClick={() => {
+                  handleClose(false);
+                  handleCloseNote();
+                  confirmAlert({
+                    message: "Are you sure to accept this request ?",
+                    buttons: [
+                      {
+                        label: "Yes",
+                        onClick: () => {
+                          acceptOrder().then(handleCloseNote());
+                        },
+                      },
+                      { label: "No" },
+                    ],
+                  });
+                }}
+              >
+                Accept
+              </Button>
+            </>
           </Box>
         </Box>
       </Modal>

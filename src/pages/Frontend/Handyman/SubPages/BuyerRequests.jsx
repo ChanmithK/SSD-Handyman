@@ -174,8 +174,8 @@ function BuyerRequests() {
         for (const buyerRequest of buyerRequestsData) {
           const buyerRequestsSentQuery = query(
             collection(db, "buyerRequestsSent"),
-            where("handyManId", "==", userNew.id),
-            where("buyerRequestId", "==", buyerRequest.id)
+            where("handyManId", "==", userNew?.id),
+            where("buyerRequestsId", "==", buyerRequest.id)
           );
 
           const buyerRequestsSentSnapshot = await getDocs(
