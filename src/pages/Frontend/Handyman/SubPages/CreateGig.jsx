@@ -178,10 +178,9 @@ const CreateGig = () => {
         sx={{
           color: "#ffffff",
           backgroundColor: "#062b56",
-          fontSize: "15px",
-          letterSpacing: "1.5px",
+          fontSize: "12px",
           fontFamily: "Inter",
-          minWidth: "150px",
+          minWidth: "120px",
           height: "40px",
           borderRadius: "5px",
           textTransform: "none",

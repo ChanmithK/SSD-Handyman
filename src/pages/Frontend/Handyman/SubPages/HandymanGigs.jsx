@@ -67,7 +67,7 @@ function HandymanGigs() {
 
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "70vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
