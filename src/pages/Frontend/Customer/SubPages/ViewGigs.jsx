@@ -18,7 +18,7 @@ import {
 import React, { useEffect, useState } from "react";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import StarIcon from "@mui/icons-material/Star";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../../../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../../../../redux/loadingSlice";
@@ -56,13 +56,21 @@ function ViewGigs() {
     const gigsCollectionRef = collection(db, "gigs");
     setLoading(true);
     const getGigs = async () => {
-      const querySnapshot = await getDocs(gigsCollectionRef);
-      const documents = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setGigs(documents);
-      setDocumentCount(querySnapshot.size); // Set the document count
+      onSnapshot(gigsCollectionRef, (snapshot) => {
+        const documents = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setGigs(documents);
+        setDocumentCount(snapshot.size); // Set the document count
+      });
+      // const querySnapshot = await getDocs(gigsCollectionRef);
+      // const documents = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setGigs(documents);
+      // setDocumentCount(querySnapshot.size); // Set the document count
     };
 
     getGigs().then(setLoading(false));
