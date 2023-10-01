@@ -6,6 +6,10 @@ import {
   Modal,
   TextField,
   Tooltip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import * as yup from "yup";
@@ -34,22 +38,23 @@ const style = {
 
 const CreateCustomerRequest = () => {
   const validationSchema = yup.object().shape({
-    title: yup
+    request: yup.string().required("Please enter your request"),
+    budget: yup
       .string()
-      .matches(/^[\w\.\s]+$/, "Title must contain only words")
-      .required("Title is required"),
-    description: yup
+      .required("Please enter the budget")
+      .matches(/^[0-9]+$/, "Must be only digits"),
+    duration: yup
       .string()
-      .matches(/^[\w\.\s]+$/, "Description must contain only words")
-      .required("Description is required"),
-    price: yup
+      .required("Please enter the duration")
+      .matches(/^[0-9]+$/, "Must be only digits"),
+    category: yup.string().required("Please select a category"),
+    requiredDate: yup
       .string()
-      .matches(/\d+\.?\d*/, "Price must contain only numbers")
-      .required("Price is required"),
-    completionTime: yup
-      .string()
-      .matches(/\d+\.?\d*/, "Completion Time must contain only numbers")
-      .required("Completion Time is required"),
+      .matches(
+        /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+        "Date must be in dd/mm/yyyy format"
+      )
+      .required("Date is required"),
   });
 
   const userNew = useSelector((state) => state.setUserData.userData);
@@ -72,59 +77,27 @@ const CreateCustomerRequest = () => {
   const [ImageURL, setImageURL] = useState("");
 
   const onSubmitHandler = (data) => {
-    if (image === null) {
-      ErrMsg("Please select an image for the gig!");
-
-      return;
-    }
-
     createGig(data);
     setImageURL("");
     setImage(null);
   };
 
-  const ErrMsg = (errMsg) => {
-    toast.error(errMsg, {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-
   const createGig = async (values) => {
-    const { title, description, price, completionTime } = values;
+    const { request, budget, duration, category, requiredDate } = values;
     try {
-      const imageRef = ref(storage, `gig-images/${image.name + Date.now()}`);
-
-      await uploadBytes(imageRef, image)
-        .then(() => {
-          getDownloadURL(imageRef).then((url) => {
-            setImageURL(url);
-          });
-        })
-        .catch((err) => console.log("Error uploading image"));
-
-      await addDoc(collection(db, "gigs"), {
-        title,
-        description,
-        price,
-        taskTime: completionTime + " Days",
-        image: ImageURL,
-        id: userNew ? userNew.id : "",
-        name: userNew ? userNew.name : "",
-        profileImage: userNew != undefined ? userNew?.profileImage : "",
-        level: "Level " + Math.ceil(Math.random() * 5),
-        rating: Math.floor(Math.random() * 5),
-        numReviews: Math.floor(Math.random() * 500),
+      await addDoc(collection(db, "buyerRequests"), {
+        request,
+        budget,
+        duration,
+        category,
+        date: requiredDate,
+        customerId: userNew.id,
+        buyer: userNew.name,
       });
       handleClose();
       reset();
     } catch (error) {
-      console.log("Error adding document");
+      console.log("Error adding document", error);
     }
   };
 
@@ -136,7 +109,7 @@ const CreateCustomerRequest = () => {
         alignItems: "flex-end",
         justifyContent: "flex-end",
         mb: 2,
-        mx: 2,
+        // mx: 2,
       }}
     >
       <ToastContainer />
@@ -148,7 +121,7 @@ const CreateCustomerRequest = () => {
           fontSize: "15px",
           letterSpacing: "1.5px",
           fontFamily: "Inter",
-          minWidth: "200px",
+          minWidth: "150px",
           height: "40px",
           borderRadius: "5px",
           textTransform: "none",
@@ -157,7 +130,7 @@ const CreateCustomerRequest = () => {
         }}
         onClick={handleOpen}
       >
-        CREATE GIG
+        CREATE BUYER REQUEST
       </Button>
       <Modal
         open={open}
@@ -177,7 +150,7 @@ const CreateCustomerRequest = () => {
                     fontFamily: "Inter",
                   }}
                 >
-                  Craft Your Success
+                  Are You Tired of Looking for a Handyman?
                 </Typography>
                 <Typography
                   sx={{
@@ -187,116 +160,77 @@ const CreateCustomerRequest = () => {
                     fontFamily: "Inter",
                   }}
                 >
-                  Your Skills, Your Gigs, Your Way of Building your Career!
+                  Find the Best Suit to Do Your Handy Work for You
                 </Typography>
               </Grid>
 
               <Grid item xs={12}>
                 <TextField
-                  id="title"
-                  label="Brief Title of the Services"
-                  variant="outlined"
-                  fullWidth
-                  {...register("title")}
-                  error={Boolean(errors.title)}
-                  helperText={errors.title?.message}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  id="description"
-                  label="Description of the Offered Services"
+                  id="request"
+                  label="Description of the Requesting Services"
                   variant="outlined"
                   fullWidth
                   multiline
                   maxRows={5}
                   rows={5}
-                  {...register("description")}
-                  error={Boolean(errors.description)}
-                  helperText={errors.description?.message}
+                  {...register("request")}
+                  error={Boolean(errors.request)}
+                  helperText={errors.request?.message}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  id="price"
-                  label="Price (Rs.)"
+                  id="budget"
+                  label="Budget (Rs.)"
                   variant="outlined"
                   fullWidth
-                  {...register("price")}
-                  error={Boolean(errors.price)}
-                  helperText={errors.price?.message}
+                  {...register("budget")}
+                  error={Boolean(errors.budget)}
+                  helperText={errors.budget?.message}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  id="estimatedTime"
-                  label="Estimated Time of Completion (Days)"
+                  id="duration"
+                  label="Duration (Days)"
                   variant="outlined"
                   fullWidth
-                  {...register("completionTime")}
-                  error={Boolean(errors.completionTime)}
-                  helperText={errors.completionTime?.message}
+                  {...register("duration")}
+                  error={Boolean(errors.duration)}
+                  helperText={errors.duration?.message}
                 />
               </Grid>
+              <Grid item xs={12} sm={12} fullWidth>
+                <FormControl fullWidth>
+                  <InputLabel id="category">Category</InputLabel>
+                  <Select
+                    labelId="category"
+                    id="category"
+                    label="Category"
+                    name="category"
+                    {...register("category")}
+                    autoFocus
+                    error={Boolean(errors.category)}
+                  >
+                    <MenuItem value={"Plumber"}>Plumber</MenuItem>
+                    <MenuItem value={"Mason"}>Mason</MenuItem>
+                    <MenuItem value={"Electrician"}>Electrician</MenuItem>
+                    <MenuItem value={"Carpenter"}>Carpenter</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid item xs={12}>
-                <label htmlFor="contained-button-file">
-                  <Button
-                    variant="contained"
-                    component="span"
-                    sx={{
-                      backgroundColor: "#062b56",
-                      borderColor: "#062b56",
-                      fontSize: "14px",
-                      fontFamily: "Inter",
-                      color: "#ffffff",
-                    }}
-                  >
-                    Select Image for the Gig
-                    <input
-                      accept="image/*"
-                      id="contained-button-file"
-                      multiple
-                      type="file"
-                      style={{
-                        display: "none",
-                      }}
-                      onChange={(e) => {
-                        setImage(e.target.files[0]);
-                      }}
-                    />
-                  </Button>
-                </label>
+                <TextField
+                  id="requiredDate"
+                  label="Required Date (dd/mm/yyyy)"
+                  variant="outlined"
+                  fullWidth
+                  {...register("requiredDate")}
+                  error={errors.requiredDate ? true : false}
+                  helperText={errors.requiredDate?.message}
+                />
               </Grid>
-              <Grid item xs={2}>
-                <Tooltip
-                  placement="top"
-                  title={
-                    <img
-                      src={image ? URL.createObjectURL(image) : ""}
-                      alt="image"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  }
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "14px",
-                      color: "#062b56",
-                      fontWeight: "600",
-                      fontFamily: "Inter",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      width: "250px",
-                    }}
-                  >
-                    {image && image.name}
-                  </Typography>
-                </Tooltip>
-              </Grid>
+
               <Grid
                 item
                 xs={12}
@@ -306,7 +240,7 @@ const CreateCustomerRequest = () => {
                   mt: 2,
                   position: "absolute",
                   bottom: "4%",
-                  left: "58.5%",
+                  left: "48.5%",
                 }}
               >
                 <Box>
@@ -334,7 +268,7 @@ const CreateCustomerRequest = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Create Gig
+                    Create Buyer Request
                   </Button>
                 </Box>
               </Grid>

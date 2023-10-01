@@ -67,11 +67,7 @@ function HandymanResponses() {
   console.log("handyman orders", handymanOrderResponse);
 
   return (
-    <Box
-      sx={{
-        mt: 0,
-      }}
-    >
+    <Box sx={{ width: "100%", p: 2, mt: 1 }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -202,8 +198,8 @@ function HandymanResponses() {
                         src={"https://img.icons8.com/color/48/ok--v1.png"}
                         alt=""
                         style={{
-                          width: "44%",
-                          height: "44%",
+                          width: "28%",
+                          height: "28%",
                           // objectFit: "cover",
                         }}
                       />
@@ -216,8 +212,8 @@ function HandymanResponses() {
                         }
                         alt=""
                         style={{
-                          width: "41%",
-                          height: "41%",
+                          width: "28%",
+                          height: "28%",
                           // objectFit: "cover",
                         }}
                       />
@@ -230,8 +226,8 @@ function HandymanResponses() {
                         }
                         alt=""
                         style={{
-                          width: "41%",
-                          height: "41%",
+                          width: "28%",
+                          height: "28%",
                           // objectFit: "cover",
                         }}
                       />
