@@ -101,26 +101,36 @@ const CreateGig = () => {
       const imageRef = ref(storage, `gig-images/${image.name + Date.now()}`);
 
       await uploadBytes(imageRef, image)
-        .then(() => {
-          getDownloadURL(imageRef).then((url) => {
-            setImageURL(url);
+        .then(async () => {
+          const downloadURL = await getDownloadURL(imageRef);
+
+          const today = new Date();
+          const yyyy = today.getFullYear();
+          let mm = today.getMonth() + 1; // Months start at 0!
+          let dd = today.getDate();
+
+          if (dd < 10) dd = "0" + dd;
+          if (mm < 10) mm = "0" + mm;
+
+          const formattedToday = dd + "/" + mm + "/" + yyyy;
+
+          await addDoc(collection(db, "gigs"), {
+            title,
+            description,
+            price,
+            taskTime: completionTime + " Days",
+            image: downloadURL,
+            userId: userNew ? userNew.id : "",
+            name: userNew ? userNew.name : "",
+            profileImage: userNew != undefined ? userNew?.profileImage : "",
+            level: "Level " + Math.ceil(Math.random() * 5),
+            rating: Math.floor(Math.random() * 5),
+            numReviews: Math.floor(Math.random() * 500),
+            publishedDate: formattedToday,
           });
         })
         .catch((err) => console.log("Error uploading image"));
 
-      await addDoc(collection(db, "gigs"), {
-        title,
-        description,
-        price,
-        taskTime: completionTime + " Days",
-        image: ImageURL,
-        id: userNew ? userNew.id : "",
-        name: userNew ? userNew.name : "",
-        profileImage: userNew != undefined ? userNew?.profileImage : "",
-        level: "Level " + Math.ceil(Math.random() * 5),
-        rating: Math.floor(Math.random() * 5),
-        numReviews: Math.floor(Math.random() * 500),
-      });
       handleClose();
       reset();
     } catch (error) {
