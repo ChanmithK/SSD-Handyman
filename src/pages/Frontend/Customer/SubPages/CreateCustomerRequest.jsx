@@ -21,6 +21,8 @@ import { useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const style = {
   position: "absolute",
@@ -77,7 +79,19 @@ const CreateCustomerRequest = () => {
   const [ImageURL, setImageURL] = useState("");
 
   const onSubmitHandler = (data) => {
-    createGig(data);
+    handleClose();
+    confirmAlert({
+      message: "Are you sure to create this request ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            createGig(data);
+          },
+        },
+        { label: "No" },
+      ],
+    });
     setImageURL("");
     setImage(null);
   };
@@ -118,8 +132,7 @@ const CreateCustomerRequest = () => {
         sx={{
           color: "#ffffff",
           backgroundColor: "#062b56",
-          fontSize: "15px",
-          letterSpacing: "1.5px",
+          fontSize: "12px",
           fontFamily: "Inter",
           minWidth: "150px",
           height: "40px",

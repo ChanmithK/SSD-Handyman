@@ -17,6 +17,8 @@ import { useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const style = {
   position: "absolute",
@@ -77,8 +79,19 @@ const CreateGig = () => {
 
       return;
     }
-
-    createGig(data);
+    handleClose();
+    confirmAlert({
+      message: "Are you sure to create this gig ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            createGig(data);
+          },
+        },
+        { label: "No" },
+      ],
+    });
     setImageURL("");
     setImage(null);
   };

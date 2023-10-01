@@ -42,7 +42,7 @@ function HandymanGigs() {
     const getHandymanGigs = async () => {
       const filterdData = query(
         collection(db, "gigs"),
-        where("id", "==", `${userNew?.id}`)
+        where("userId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
 
@@ -71,6 +71,16 @@ function HandymanGigs() {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
+              <TableCell
+                sx={{
+                  fontSize: "14px",
+                  color: "#74767e",
+                  fontWeight: "500",
+                  minWidth: "140px",
+                }}
+              >
+                PUBLISHED DATE
+              </TableCell>
               <TableCell
                 sx={{
                   fontSize: "14px",
@@ -140,6 +150,16 @@ function HandymanGigs() {
                 key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                <TableCell
+                  sx={{
+                    fontSize: "14px",
+                    color: "#404145",
+                    fontWeight: "450",
+                  }}
+                  align="let"
+                >
+                  {row.publishedDate}
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {row.title}
                 </TableCell>

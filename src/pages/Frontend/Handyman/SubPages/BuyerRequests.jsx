@@ -21,6 +21,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const style = {
   position: "absolute",
@@ -115,9 +117,20 @@ function BuyerRequests() {
   });
 
   const onSubmitHandler = async (data) => {
-    sendBuyerRequest(data);
-    reset();
     handleClose();
+    confirmAlert({
+      message: "Are you sure to send this offer ?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            sendBuyerRequest(data);
+          },
+        },
+        { label: "No" },
+      ],
+    });
+    reset();
   };
 
   const sendBuyerRequest = async (data) => {
@@ -131,6 +144,7 @@ function BuyerRequests() {
         duration,
         offer,
         handyManId: userNew ? userNew.id : null,
+        handyManName: userNew ? userNew.name : null,
         buyerRequestsId: buyerRequests[0].id,
         status: "2",
         brDuration: buyerRequests[0].duration,
@@ -139,6 +153,7 @@ function BuyerRequests() {
         brBuyer: buyerRequests[0].buyer,
         brDate: buyerRequests[0].date,
         brRequest: buyerRequests[0].request,
+        customerId: buyerRequests[0].customerId,
       });
     } catch (error) {
       console.log("Error adding document");
@@ -319,7 +334,7 @@ function BuyerRequests() {
                 >
                   Rs.{row.budget}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Button
                     disabled={row.isSendOfferDisabled}
                     sx={{

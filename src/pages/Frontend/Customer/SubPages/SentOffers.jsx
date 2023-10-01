@@ -15,15 +15,17 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { collection,
+import {
+  collection,
   doc,
   getDoc,
   getDocs,
   onSnapshot,
   query,
-  where, } from "firebase/firestore";
-  import React, { useEffect, useState } from "react";
-  import { db, auth } from "../../../../firebase-config";
+  where,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db, auth } from "../../../../firebase-config";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useSelector } from "react-redux";
 
@@ -45,7 +47,6 @@ function SentOffers() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   const [buyerResponses, setBuyerResponses] = useState([]);
 
   const [requsetData, setRequsetData] = useState({});
@@ -55,7 +56,7 @@ function SentOffers() {
     const getBuyerResponses = async () => {
       const filterdData = query(
         collection(db, "buyerRequestsSent"),
-        where("customerID", "==", `${userNew?.id}`)
+        where("customerId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
 
@@ -76,7 +77,7 @@ function SentOffers() {
     getBuyerResponses();
   }, [userNew]);
 
-  console.log("buyer response",buyerResponses);
+  console.log("buyer response", buyerResponses);
 
   return (
     <Box
@@ -84,7 +85,7 @@ function SentOffers() {
         mt: 0,
       }}
     >
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
