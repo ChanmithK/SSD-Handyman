@@ -20,7 +20,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -28,6 +27,7 @@ import React, { useEffect, useState } from "react";
 import { db, auth } from "../../../../firebase-config";
 import PhoneIcon from "@mui/icons-material/Phone";
 import { useSelector } from "react-redux";
+import ViewOrderResponseModal from "../../../../components/common/viewOrderResponseModal";
 
 const style = {
   position: "absolute",
@@ -43,11 +43,10 @@ const style = {
 };
 
 function HandymanResponses() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModal, setOpenModal] = useState(false);
   const [handymanOrderResponse, setHandymanOrderResponse] = useState([]);
   const userNew = useSelector((state) => state.setUserData.userData);
+  const [requsetData, setRequsetData] = useState();
 
   useEffect(() => {
     const getHandymanOrderResponse = async () => {
@@ -55,21 +54,12 @@ function HandymanResponses() {
         collection(db, "orders"),
         where("cusID", "==", `${userNew?.id}`)
       );
-
-      onSnapshot(filterdData, (snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setHandymanOrderResponse(data);
-      });
-
-      // const querySnapshot = await getDocs(filterdData);
-      // let offeredRequests = querySnapshot.docs.map((doc) => ({
-      //   ...doc.data(),
-      //   id: doc.id,
-      // }));
-      // setHandymanOrderResponse(offeredRequests);
+      const querySnapshot = await getDocs(filterdData);
+      let offeredRequests = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setHandymanOrderResponse(offeredRequests);
     };
     getHandymanOrderResponse();
   }, [userNew]);
@@ -78,7 +68,7 @@ function HandymanResponses() {
 
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -192,7 +182,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.requiredDate}
+                  {row?.requiredDate}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -202,7 +192,7 @@ function HandymanResponses() {
                   }}
                   align="left"
                 >
-                  {row.status === 1 ? (
+                  {row?.status === 1 ? (
                     <Tooltip title="Approved">
                       <img
                         src={"https://img.icons8.com/color/48/ok--v1.png"}
@@ -214,7 +204,7 @@ function HandymanResponses() {
                         }}
                       />
                     </Tooltip>
-                  ) : row.status === 0 ? (
+                  ) : row?.status === 0 ? (
                     <Tooltip title="Rejected">
                       <img
                         src={
@@ -258,14 +248,17 @@ function HandymanResponses() {
                   <Button
                     sx={{
                       minWidth: 110,
-                      color: "#f96a20",
-                      borderColor: "#f96a20",
+                      color: "#062b56",
+                      borderColor: "#062b56",
                       fontSize: "12px",
                     }}
                     variant="outlined"
-                    onClick={handleOpen}
+                    onClick={() => {
+                      setOpenModal(true);
+                      setRequsetData(row);
+                    }}
                   >
-                    View Gig
+                    View Order
                   </Button>
                 </TableCell>
               </TableRow>
@@ -274,94 +267,11 @@ function HandymanResponses() {
         </Table>
       </TableContainer>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} position={"relative"}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography
-                sx={{
-                  fontSize: "19px",
-                  color: "#f96a20",
-                  fontWeight: "550",
-                }}
-              >
-                Order Details
-              </Typography>
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Description"
-                variant="outlined"
-                fullWidth
-                multiline
-                maxRows={5}
-                rows={5}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Duration"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="filled-basic"
-                label="Offer"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 30,
-              right: "3.5%",
-            }}
-          >
-            <Button
-              sx={{
-                minWidth: 110,
-                color: "#062b56",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                mr: 2,
-              }}
-              variant="outlined"
-              onClick={handleClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              sx={{
-                minWidth: 110,
-                color: "#ffffff",
-                borderColor: "#062b56",
-                fontSize: "12px",
-                backgroundColor: "#062b56",
-                "&:hover": {
-                  backgroundColor: "#0a3e7c",
-                },
-              }}
-              variant="contained"
-              onClick={handleOpen}
-              startIcon={<PhoneIcon />}
-            >
-              Contact Customer
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      <ViewOrderResponseModal
+        open={openModal}
+        requestData={requsetData}
+        setOpenModal={setOpenModal}
+      />
     </Box>
   );
 }
