@@ -65,7 +65,11 @@ export default function SendRequestModel({ open, setOpen, gigData }) {
         gigId: gigData?.id,
         gigTitle: gigData?.title,
         cusID: userNew?.id,
-        handymanID: gigData?.id,
+        cusName: userNew?.name,
+        handymanID: gigData?.userId,
+        handymanName: gigData?.name,
+        status: 2,
+        note: "",
       });
       setOpen(false);
       reset();
