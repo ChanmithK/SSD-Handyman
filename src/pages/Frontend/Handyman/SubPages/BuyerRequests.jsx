@@ -332,7 +332,7 @@ function BuyerRequests() {
                 >
                   Rs.{row.budget}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   <Button
                     disabled={row.isSendOfferDisabled}
                     sx={{
