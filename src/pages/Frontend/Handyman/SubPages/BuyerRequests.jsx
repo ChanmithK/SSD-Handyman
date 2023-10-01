@@ -164,6 +164,7 @@ function BuyerRequests() {
     const buyerRequestsCollectionRef = collection(db, "buyerRequests");
     const getBuyerRequests = async () => {
       const data = await getDocs(buyerRequestsCollectionRef);
+
       const buyerRequestsData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -173,8 +174,8 @@ function BuyerRequests() {
         for (const buyerRequest of buyerRequestsData) {
           const buyerRequestsSentQuery = query(
             collection(db, "buyerRequestsSent"),
-            where("handyManId", "==", userNew.id),
-            where("buyerRequestId", "==", buyerRequest.id)
+            where("handyManId", "==", userNew?.id),
+            where("buyerRequestsId", "==", buyerRequest.id)
           );
 
           const buyerRequestsSentSnapshot = await getDocs(
