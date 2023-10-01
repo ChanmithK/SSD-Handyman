@@ -248,14 +248,14 @@ function HandymanResponses() {
                   <Button
                     sx={{
                       minWidth: 110,
-                      color: "#f96a20",
-                      borderColor: "#f96a20",
+                      color: "#062b56",
+                      borderColor: "#062b56",
                       fontSize: "12px",
                     }}
                     variant="outlined"
                     onClick={handleOpen}
                   >
-                    View Gig
+                    View Order
                   </Button>
                 </TableCell>
               </TableRow>

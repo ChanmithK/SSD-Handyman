@@ -146,6 +146,25 @@ export default function ViewOrderDirectRequestModal({
                 }}
               />
             </Grid>
+            {requestData?.note ? (
+              <Grid item xs={12}>
+                <TextField
+                  id="filled-basic"
+                  label="Your Note"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  maxRows={5}
+                  rows={5}
+                  defaultValue={requestData?.note}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </Grid>
+            ) : (
+              ""
+            )}
             <Grid item xs={12}>
               <Box
                 sx={{
@@ -170,20 +189,24 @@ export default function ViewOrderDirectRequestModal({
                   >
                     Cancel
                   </Button>
-                  <Button
-                    sx={{
-                      minWidth: 110,
-                      color: "white",
-                      backgroundColor: "#062b56",
-                      fontSize: "12px",
-                    }}
-                    variant="contained"
-                    onClick={() => {
-                      handleOpenNote();
-                    }}
-                  >
-                    Continue
-                  </Button>
+                  {requestData?.status === 1 || requestData?.status === 0 ? (
+                    ""
+                  ) : (
+                    <Button
+                      sx={{
+                        minWidth: 110,
+                        color: "white",
+                        backgroundColor: "#062b56",
+                        fontSize: "12px",
+                      }}
+                      variant="contained"
+                      onClick={() => {
+                        handleOpenNote();
+                      }}
+                    >
+                      Continue
+                    </Button>
+                  )}
                 </>
               </Box>
             </Grid>
