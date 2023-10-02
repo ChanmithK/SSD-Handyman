@@ -17,10 +17,10 @@ HandyMan is a comprehensive web application designed to address your everyday ha
 <br>
 
 ## Github Link to the Original Project
-`https://github.com/ChanmithK/FitFlame`
+`https://github.com/ChanmithK/Handyman`
 <br><br>
 ## Github Link to the Modified Project 
-`https://github.com/ChanmithK/SSD-FitFlame`
+`https://github.com/ChanmithK/SSD-Handyman`
 <br><br>
 ## Link to the YouTube Video
 `https://youtu.be/-LDRNUuaq7I`
