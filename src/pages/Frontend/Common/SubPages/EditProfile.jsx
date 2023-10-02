@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Grid, Tooltip } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { Close } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import { doc, updateDoc } from "@firebase/firestore";
@@ -40,6 +41,7 @@ const EditProfile = () => {
   const userNew = useSelector((state) => state.setUserData.userData);
   const [selected, setSelected] = useState(userNew?.profileImage);
   const [imagePreview, setImagePreview] = useState(userNew?.profileImage);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -60,6 +62,7 @@ const EditProfile = () => {
   };
 
   const updateUser = async (data) => {
+    setLoading(true);
     const { name, telephone, age, city } = data;
 
     try {
@@ -84,6 +87,7 @@ const EditProfile = () => {
       }
 
       navigate("/");
+      setLoading(false);
     } catch (error) {
       console.log("Error updating document");
     }
@@ -281,9 +285,12 @@ const EditProfile = () => {
                       />
                     </Grid>
                   </Grid>
-                  <Button
+                  <LoadingButton
                     type="submit"
                     fullWidth
+                    loading={loading}
+                    loadingIndicator="Saving..."
+                    variant="contained"
                     sx={{
                       mt: 6,
                       mb: 2,
@@ -296,7 +303,7 @@ const EditProfile = () => {
                     }}
                   >
                     SAVE CHANGES
-                  </Button>
+                  </LoadingButton>
                 </form>
               </Box>
             </Box>

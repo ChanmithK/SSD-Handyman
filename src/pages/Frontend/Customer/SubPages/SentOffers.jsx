@@ -20,6 +20,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   updateDoc,
   where,
@@ -87,11 +88,20 @@ function SentOffers() {
         where("customerId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setBuyerResponses(offeredRequests);
+
+      onSnapshot(filterdData, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setBuyerResponses(data);
+      });
+
+      // let offeredRequests = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setBuyerResponses(offeredRequests);
     };
     getBuyerResponses();
   }, [userNew]);
@@ -284,8 +294,8 @@ function SentOffers() {
                         src={"https://img.icons8.com/color/48/ok--v1.png"}
                         alt=""
                         style={{
-                          width: "44%",
-                          height: "44%",
+                          width: "22%",
+                          height: "22%",
                           // objectFit: "cover",
                         }}
                       />
@@ -298,8 +308,8 @@ function SentOffers() {
                         }
                         alt=""
                         style={{
-                          width: "41%",
-                          height: "41%",
+                          width: "22%",
+                          height: "22%",
                           // objectFit: "cover",
                         }}
                       />
@@ -312,8 +322,8 @@ function SentOffers() {
                         }
                         alt=""
                         style={{
-                          width: "41%",
-                          height: "41%",
+                          width: "22%",
+                          height: "22%",
                           // objectFit: "cover",
                         }}
                       />

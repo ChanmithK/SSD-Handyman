@@ -22,6 +22,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -56,11 +57,20 @@ function SentOffers() {
         where("handyManId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setBuyerRequests(offeredRequests);
+
+      onSnapshot(filterdData, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setBuyerRequests(data);
+      });
+
+      // let offeredRequests = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setBuyerRequests(offeredRequests);
     };
     getBuyerRequests();
   }, []);
@@ -71,7 +81,7 @@ function SentOffers() {
         mt: 0,
       }}
     >
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

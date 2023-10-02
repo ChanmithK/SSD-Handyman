@@ -20,6 +20,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
@@ -44,11 +45,20 @@ function HandymanGigs() {
         where("userId", "==", `${userNew?.id}`)
       );
       const querySnapshot = await getDocs(filterdData);
-      let offeredRequests = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setHandymanGigs(offeredRequests);
+
+      onSnapshot(filterdData, (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setHandymanGigs(data);
+      });
+
+      // let offeredRequests = querySnapshot.docs.map((doc) => ({
+      //   ...doc.data(),
+      //   id: doc.id,
+      // }));
+      // setHandymanGigs(offeredRequests);
     };
     getHandymanGigs();
   }, [userNew]);
@@ -57,7 +67,7 @@ function HandymanGigs() {
 
   return (
     <Box sx={{ width: "100%", p: 2, mt: 1 }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "70vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>

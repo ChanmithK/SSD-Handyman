@@ -164,6 +164,7 @@ function BuyerRequests() {
     const buyerRequestsCollectionRef = collection(db, "buyerRequests");
     const getBuyerRequests = async () => {
       const data = await getDocs(buyerRequestsCollectionRef);
+
       const buyerRequestsData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -197,7 +198,7 @@ function BuyerRequests() {
         mt: 0,
       }}
     >
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: "86vh" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
