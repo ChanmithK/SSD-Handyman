@@ -23,7 +23,7 @@ HandyMan is a comprehensive web application designed to address your everyday ha
 `https://github.com/ChanmithK/SSD-FitFlame`
 <br><br>
 ## Link to the YouTube Video
-``
+`https://youtu.be/-LDRNUuaq7I`
 <br><br>
 
 ## Technologies
